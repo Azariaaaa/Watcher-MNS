@@ -6,21 +6,19 @@ namespace WatchMNS.Database
 {
     public class DatabaseContext : DbContext
     {
-        //public DbSet<Player> Players { get; set; }
-        //public DbSet<Team> Teams { get; set; }
-        public DbSet<Client> ClientTable { get; set; }
-        public DbSet<Document> DocumentTable { get; set; }
-        public DbSet<DocumentStatus> DocumentStatusTable { get; set; }
-        public DbSet<DocumentType> DocumentTypeTable { get; set; }
-        public DbSet<LateMiss> LateMisseTable { get; set; }
-        public DbSet<LateMissDoc> LateMissDocTable { get; set; }
-        public DbSet<LateMissStatus> LateMissStatusTable { get; set; }
-        public DbSet<Notification> NotificationTable { get; set; }
-        public DbSet<NotificationType> NotificationTypeTable { get; set; }
-        public DbSet<ProfessionnalStatus> ProfessionnalStatusTable { get; set; }
-        public DbSet<Role> RoleTable { get; set; }
-        public DbSet<Training> TrainingTable { get; set; }
-        public DbSet<TrainingType> TrainingTypeTable { get; set; }
+        public DbSet<Client> Client { get; set; }
+        public DbSet<Document> Document{ get; set; }
+        public DbSet<DocumentStatus> DocumentStatus { get; set; }
+        public DbSet<DocumentType> DocumentType{ get; set; }
+        public DbSet<LateMiss> LateMisse { get; set; }
+        public DbSet<LateMissDoc> LateMissDoc { get; set; }
+        public DbSet<LateMissStatus> LateMissStatus { get; set; }
+        public DbSet<Notification> Notification { get; set; }
+        public DbSet<NotificationType> NotificationType { get; set; }
+        public DbSet<ProfessionnalStatus> ProfessionnalStatus { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<Training> Training { get; set; }
+        public DbSet<TrainingType> TrainingType { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = "server=localhost;Database=watcherdb;user=root;password=root";
