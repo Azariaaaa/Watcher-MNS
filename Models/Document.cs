@@ -12,5 +12,6 @@ namespace WatchMNS.Models
         public DateTime LastStatusDate { get; set; }
         public Client Client { get; set; }
         public DocumentType DocumentType { get; set; }
+        public DocumentStatus DocumentStatus { get; set; }
     }
 }

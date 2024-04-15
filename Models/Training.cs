@@ -9,5 +9,6 @@ namespace WatchMNS.Models
         public DateTime StartDateTraining { get; set; }
         public DateTime EndDateTraining { get; set;}
         public TrainingType TrainingType { get; set; }
+        public List<Client> clients { get; set; } = new List<Client>();
     }
 }

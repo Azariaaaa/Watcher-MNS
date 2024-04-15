@@ -9,5 +9,6 @@ namespace WatchMNS.Models
         public DateTime NotificationDate { get; set; }
         public bool IsRead { get; set; }
         public NotificationType NotificationType { get; set; }
+        public List<Client> clients { get; set; } = new List<Client>();
     }
 }

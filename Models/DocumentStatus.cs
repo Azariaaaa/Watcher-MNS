@@ -7,5 +7,6 @@ namespace WatchMNS.Models
         [Key]
         public int Id { get; set; }
         public string Label { get; set; }
+        public List<Document> Documents { get; set;} = new List<Document>();
     }
 }

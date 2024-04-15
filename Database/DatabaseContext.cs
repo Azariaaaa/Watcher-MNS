@@ -10,7 +10,7 @@ namespace WatchMNS.Database
         public DbSet<Document> Document{ get; set; }
         public DbSet<DocumentStatus> DocumentStatus { get; set; }
         public DbSet<DocumentType> DocumentType{ get; set; }
-        public DbSet<LateMiss> LateMisse { get; set; }
+        public DbSet<LateMiss> LateMiss { get; set; }
         public DbSet<LateMissDoc> LateMissDoc { get; set; }
         public DbSet<LateMissStatus> LateMissStatus { get; set; }
         public DbSet<Notification> Notification { get; set; }

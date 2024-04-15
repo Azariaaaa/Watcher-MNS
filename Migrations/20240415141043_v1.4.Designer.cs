@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WatchMNS.Database;
 
@@ -11,9 +12,11 @@ using WatchMNS.Database;
 namespace WatchMNS.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240415141043_v1.4")]
+    partial class v14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,36 +24,6 @@ namespace WatchMNS.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
-
-            modelBuilder.Entity("ClientNotification", b =>
-                {
-                    b.Property<int>("NotificationsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("clientsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("NotificationsId", "clientsId");
-
-                    b.HasIndex("clientsId");
-
-                    b.ToTable("ClientNotification");
-                });
-
-            modelBuilder.Entity("ClientTraining", b =>
-                {
-                    b.Property<int>("TrainingsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("clientsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TrainingsId", "clientsId");
-
-                    b.HasIndex("clientsId");
-
-                    b.ToTable("ClientTraining");
-                });
 
             modelBuilder.Entity("WatchMNS.Models.Client", b =>
                 {
@@ -106,14 +79,9 @@ namespace WatchMNS.Migrations
                     b.Property<int>("ProfessionnalStatusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProfessionnalStatusId");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Client");
                 });
@@ -129,7 +97,7 @@ namespace WatchMNS.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DocumentStatusId")
+                    b.Property<int?>("DocumentStatusId")
                         .HasColumnType("int");
 
                     b.Property<int>("DocumentTypeId")
@@ -211,6 +179,9 @@ namespace WatchMNS.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int?>("LateMissStatusId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LateMissType")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -218,14 +189,11 @@ namespace WatchMNS.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("lateMissStatusId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("lateMissStatusId");
+                    b.HasIndex("LateMissStatusId");
 
                     b.ToTable("LateMiss");
                 });
@@ -392,36 +360,6 @@ namespace WatchMNS.Migrations
                     b.ToTable("TrainingType");
                 });
 
-            modelBuilder.Entity("ClientNotification", b =>
-                {
-                    b.HasOne("WatchMNS.Models.Notification", null)
-                        .WithMany()
-                        .HasForeignKey("NotificationsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WatchMNS.Models.Client", null)
-                        .WithMany()
-                        .HasForeignKey("clientsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ClientTraining", b =>
-                {
-                    b.HasOne("WatchMNS.Models.Training", null)
-                        .WithMany()
-                        .HasForeignKey("TrainingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WatchMNS.Models.Client", null)
-                        .WithMany()
-                        .HasForeignKey("clientsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("WatchMNS.Models.Client", b =>
                 {
                     b.HasOne("WatchMNS.Models.ProfessionnalStatus", "ProfessionnalStatus")
@@ -430,15 +368,7 @@ namespace WatchMNS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WatchMNS.Models.Role", "Role")
-                        .WithMany("Clients")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("ProfessionnalStatus");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("WatchMNS.Models.Document", b =>
@@ -449,11 +379,9 @@ namespace WatchMNS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WatchMNS.Models.DocumentStatus", "DocumentStatus")
+                    b.HasOne("WatchMNS.Models.DocumentStatus", null)
                         .WithMany("Documents")
-                        .HasForeignKey("DocumentStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DocumentStatusId");
 
                     b.HasOne("WatchMNS.Models.DocumentType", "DocumentType")
                         .WithMany()
@@ -462,8 +390,6 @@ namespace WatchMNS.Migrations
                         .IsRequired();
 
                     b.Navigation("Client");
-
-                    b.Navigation("DocumentStatus");
 
                     b.Navigation("DocumentType");
                 });
@@ -476,15 +402,11 @@ namespace WatchMNS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WatchMNS.Models.LateMissStatus", "lateMissStatus")
+                    b.HasOne("WatchMNS.Models.LateMissStatus", null)
                         .WithMany("lateMisses")
-                        .HasForeignKey("lateMissStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LateMissStatusId");
 
                     b.Navigation("Client");
-
-                    b.Navigation("lateMissStatus");
                 });
 
             modelBuilder.Entity("WatchMNS.Models.LateMissDoc", b =>
@@ -533,11 +455,6 @@ namespace WatchMNS.Migrations
             modelBuilder.Entity("WatchMNS.Models.ProfessionnalStatus", b =>
                 {
                     b.Navigation("ClientList");
-                });
-
-            modelBuilder.Entity("WatchMNS.Models.Role", b =>
-                {
-                    b.Navigation("Clients");
                 });
 #pragma warning restore 612, 618
         }

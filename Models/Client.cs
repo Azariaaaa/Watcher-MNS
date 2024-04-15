@@ -18,5 +18,8 @@ namespace WatchMNS.Models
         public string NativeCity { get; set; }
         public string NativeCountry { get; set; }
         public ProfessionnalStatus ProfessionnalStatus { get; set; }
+        public Role Role { get; set; }
+        public List<Training> Trainings { get; set; } = new List<Training>();
+        public List<Notification> Notifications { get; set; } = new List<Notification>();
     }
 }
