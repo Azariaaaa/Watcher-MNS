@@ -1,0 +1,66 @@
+﻿@model WatchMNS.Models.Client
+
+@{
+    ViewData["Title"] = "CreateUser";
+}
+
+<h1>CreateUser</h1>
+
+<h4>Client</h4>
+
+<div class="form-sizing border rounded p-3 col-4">
+    <form method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="Lastname" class="form-label text-dark">Nom</label>
+            <input class="form-control" type="text" asp-for="Lastname">
+            <span asp-validation-for="Lastname" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="Firstname" class="form-label text-dark">Prénom</label>
+            <input class="form-control" type="text" asp-for="Firstname">
+            <span asp-validation-for="Firstname" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="Password" class="form-label text-dark">Mot de passe</label>
+            <input class="form-control" type="text" asp-for="Password">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="Email" class="form-label text-dark">Mail</label>
+            <input class="form-control" type="email" asp-for="Email">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="Address" class="form-label text-dark">Adresse</label>
+            <input class="form-control" type="text" asp-for="Address">
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="PostCode" class="form-label text-dark">Code Postal</label>
+            <input class="form-control" type="text" asp-for="PostCode">
+            <span asp-validation-for="PostCode" class="text-danger"></span>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-warning mb-3">Envoyer</button>
+        </div>
+    </form>
+</div>
+
+
+@* [Required]
+public string Password { get; set; }
+[Required]
+public string Firstname { get; set; }
+[Required]
+public string Lastname { get; set; }
+[Required]
+public string Email { get; set; }
+[Required]
+public string Address { get; set; }
+public string PostCode { get; set; }
+public string City { get; set; }
+public string Country { get; set; }
+public DateTime BirthDate { get; set; }
+public string NativeCity { get; set; }
+public string NativeCountry { get; set; } *@
+        
