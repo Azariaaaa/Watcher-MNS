@@ -18,5 +18,14 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-image: url('/images/grid_small_dot_3_by_amateusforever_d95hrnr-pre.jpg');
+}
+
+.navbar {
+    background: linear-gradient(90deg, rgba(255,169,0,1) 0%, rgba(251,111,251,1) 33%, rgba(67,120,245,1) 66%, rgba(0,212,255,1) 100%);
+}
+
+.form-sizing{
+    margin: auto;
 }
