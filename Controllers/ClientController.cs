@@ -38,8 +38,5 @@ namespace WatchMNS.Controllers
             }
             return RedirectToAction("CreateUser");
         }
-
-
-
     }
 }

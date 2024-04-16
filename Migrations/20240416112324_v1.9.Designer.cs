@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WatchMNS.Database;
 
@@ -11,9 +12,11 @@ using WatchMNS.Database;
 namespace WatchMNS.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240416112324_v1.9")]
+    partial class v19
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,13 +67,15 @@ namespace WatchMNS.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("BirthDate")
+                    b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Email")
@@ -86,9 +91,11 @@ namespace WatchMNS.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("NativeCity")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("NativeCountry")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Password")
@@ -96,12 +103,13 @@ namespace WatchMNS.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("PostCode")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("ProfessionnalStatusId")
+                    b.Property<int>("ProfessionnalStatusId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RoleId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -421,11 +429,15 @@ namespace WatchMNS.Migrations
                 {
                     b.HasOne("WatchMNS.Models.ProfessionnalStatus", "ProfessionnalStatus")
                         .WithMany("ClientList")
-                        .HasForeignKey("ProfessionnalStatusId");
+                        .HasForeignKey("ProfessionnalStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WatchMNS.Models.Role", "Role")
                         .WithMany("Clients")
-                        .HasForeignKey("RoleId");
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProfessionnalStatus");
 
