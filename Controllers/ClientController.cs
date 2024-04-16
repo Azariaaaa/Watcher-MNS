@@ -14,21 +14,17 @@ namespace WatchMNS.Controllers
 
         public IActionResult CreateUser()
         {
-            Console.WriteLine("test");
             return View();
         }
 
         [HttpPost]
         public IActionResult CreateUser(Client client)
         {
-            Console.WriteLine("entre dans la method");
             if (!ModelState.IsValid)
             {
-                Console.WriteLine("Model non valid");
                 return View(client);
             }
 
-            Console.WriteLine("Passe le model");
             using (DatabaseContext database = new DatabaseContext())
             {
                 database.Client.Add(client);
