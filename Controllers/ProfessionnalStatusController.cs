@@ -24,7 +24,6 @@ namespace WatchMNS.Controllers
                 database.ProfessionnalStatus.Add(pStatus);
 
                 database.SaveChanges();
-
             }
 
             return RedirectToAction("CreateProfessionnalStatus");
