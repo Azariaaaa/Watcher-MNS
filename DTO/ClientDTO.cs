@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WatchMNS.Models
+namespace WatchMNS.DTO
 {
-    public class Client
+    public class ClientDTO
     {
-        [Key]
-        public int Id { get; set; }
         public string Password { get; set; }
         [Required]
         public string Firstname { get; set; }
@@ -23,7 +21,5 @@ namespace WatchMNS.Models
         public string NativeCountry { get; set; }
         public int ProfessionnalStatusId { get; set; }
         public int RoleId { get; set; }
-        public List<Training>? Trainings { get; set; } = new List<Training>();
-        public List<Notification>? Notifications { get; set; } = new List<Notification>();
     }
 }

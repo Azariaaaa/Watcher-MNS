@@ -1,65 +1,87 @@
-﻿@model WatchMNS.Models.Client
+﻿@using WatchMNS.Database
+@model WatchMNS.Models.Client
 
 @{
-    ViewData["Title"] = "CreateUser";
+    DatabaseContext database = new DatabaseContext();
+    List<Role> RolesList = database.Role.ToList();
+    List<ProfessionnalStatus> professionnalStatusesList = database.ProfessionnalStatus.ToList();
 }
+
 <h4 class="text-center text-light">Inscription</h4>
     <div class="form-sizing border rounded p-3 col-4">
         <form method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="Lastname" class="form-label text-light">Nom</label>
-                <input class="form-control" type="text" asp-for="Lastname">
-                <span asp-validation-for="Lastname" class="text-danger"></span>
+            <input class="form-control" type="text" asp-for="@Model.Lastname">
+            <span asp-validation-for="@Model.Lastname" class="text-danger"></span>
             </div>
             <div class="mb-3">
             <label for="Firstname" class="form-label text-light">Prénom</label>
-                <input class="form-control" type="text" asp-for="Firstname">
-                <span asp-validation-for="Firstname" class="text-danger"></span>
+            <input class="form-control" type="text" asp-for="@Model.Firstname">
+            <span asp-validation-for="@Model.Firstname" class="text-danger"></span>
             </div>
             <div class="mb-3">
             <label for="Password" class="form-label text-light">Mot de passe</label>
-                <input class="form-control" type="text" asp-for="Password">
-                <span asp-validation-for="Password" class="text-danger"></span>
+            <input class="form-control" type="text" asp-for="@Model.Password">
+            <span asp-validation-for="@Model.Password" class="text-danger"></span>
             </div>
             <div class="mb-3">
             <label for="Email" class="form-label text-light">Mail</label>
-                <input class="form-control" type="email" asp-for="Email">
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <input class="form-control" type="email" asp-for="@Model.Email">
+            <span asp-validation-for="@Model.Email" class="text-danger"></span>
             </div>
             <div class="mb-3">
             <label for="Address" class="form-label text-light">Adresse</label>
-                <input class="form-control" type="text" asp-for="Address">
-                <span asp-validation-for="Address" class="text-danger"></span>
+            <input class="form-control" type="text" asp-for="@Model.Address">
+            <span asp-validation-for="@Model.Address" class="text-danger"></span>
             </div>
             <div class="mb-3">
             <label for="PostCode" class="form-label text-light">Code Postal</label>
-                <input class="form-control" type="text" asp-for="PostCode">
-                <span asp-validation-for="PostCode" class="text-danger"></span>
+            <input class="form-control" type="text" asp-for="@Model.PostCode">
+            <span asp-validation-for="@Model.PostCode" class="text-danger"></span>
             </div>
             <div class="mb-3">
             <label for="City" class="form-label text-light">Ville</label>
-                <input class="form-control" type="text" asp-for="City">
-                <span asp-validation-for="City" class="text-danger"></span>
+            <input class="form-control" type="text" asp-for="@Model.City">
+            <span asp-validation-for="@Model.City" class="text-danger"></span>
             </div>
             <div class="mb-3">
             <label for="Country" class="form-label text-light">Pays</label>
-                <input class="form-control" type="text" asp-for="Country">
-                <span asp-validation-for="Country" class="text-danger"></span>
+            <input class="form-control" type="text" asp-for="@Model.Country">
+            <span asp-validation-for="@Model.Country" class="text-danger"></span>
             </div>
             <div class="mb-3">
             <label for="BirthDate" class="form-label text-light">Date de naissance</label>
-                <input class="form-control" type="date" asp-for="BirthDate">
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            <input class="form-control" type="date" asp-for="@Model.BirthDate">
+            <span asp-validation-for="@Model.BirthDate" class="text-danger"></span>
             </div>
             <div class="mb-3">
             <label for="NativeCity" class="form-label text-light">Ville de naissance</label>
-                <input class="form-control" type="text" asp-for="NativeCity">
-                <span asp-validation-for="NativeCity" class="text-danger"></span>
+            <input class="form-control" type="text" asp-for="@Model.NativeCity">
+            <span asp-validation-for="@Model.NativeCity" class="text-danger"></span>
             </div>
             <div class="mb-3">
             <label for="NativeCountry" class="form-label text-light">Pays de naissance</label>
-                <input class="form-control" type="text" asp-for="NativeCountry">
-                <span asp-validation-for="NativeCountry" class="text-danger"></span>
+            <input class="form-control" type="text" asp-for="@Model.NativeCountry">
+            <span asp-validation-for="@Model.NativeCountry" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label for="Role" class="form-label text-light">Role</label>
+            <select class="form-select" asp-for="@Model.RoleId">
+                @foreach (Role role in RolesList)
+                {
+                    <option value='@role.Id'>@role.Label</option>
+                }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="ProfessionnalStatus" class="form-label text-light">Professionnal Status</label>
+                <select class="form-select" asp-for="@Model.ProfessionnalStatusId">
+                    @foreach (ProfessionnalStatus professionnalStatus in professionnalStatusesList)
+                    {
+                        <option value='@professionnalStatus.Id'>@professionnalStatus.Label</option>
+                    }
+                </select>
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-warning mb-3">Envoyer</button>
