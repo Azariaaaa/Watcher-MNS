@@ -1,0 +1,18 @@
+﻿@model List<Client>
+
+<div class="form-sizing border rounded p-3">
+    <form asp-controller="Client" asp-action="EditUser" method="get">
+        <div class="mb-3">
+            <label for="selectedUser" class="form-label text-light">Select a user : </label>
+            <select name="id" id="selectedUser" class="form-select">
+                @foreach (Client client in Model)
+                {
+                    <option value='@client.Id'>@client.Lastname @client.Firstname</option>
+                }
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-warning mb-3">Edit User</button>
+        </div>
+    </form>
+</div>

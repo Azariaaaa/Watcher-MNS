@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Numerics;
 using WatchMNS.Database;
 using WatchMNS.Models;
@@ -8,6 +9,7 @@ namespace WatchMNS.Controllers
 {
     public class ClientController : Controller
     {
+        private DatabaseContext _dbContext = new DatabaseContext();
         public IActionResult Index()
         {
             return View();
@@ -15,22 +17,36 @@ namespace WatchMNS.Controllers
 
         public IActionResult CreateUser()
         {
-            return View();
+            ClientRolesStatusViewModel viewModel = new ClientRolesStatusViewModel();
+            viewModel.Roles = _dbContext.Role.ToList();
+            viewModel.ProfessionnalStatuses = _dbContext.ProfessionnalStatus.ToList();
+            return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult CreateUser(Client client)
+        public IActionResult CreateUser(ClientRolesStatusViewModel viewModel)
         {
+            viewModel.Roles = _dbContext.Role.ToList();
+            viewModel.ProfessionnalStatuses = _dbContext.ProfessionnalStatus.ToList();
+
             if (!ModelState.IsValid)
             {
-                return View(client);
+                foreach (var key in ModelState.Keys)
+                {
+                    var error = ModelState[key].Errors.FirstOrDefault();
+                    if (error != null)
+                    {
+                        Console.WriteLine(error.ErrorMessage); 
+                    }
+                }
+
+                Console.WriteLine("ModelStat not valid.");
+                return View(viewModel);
             }
-
-            Console.WriteLine("ModelState Valide");
-
+            
             using (DatabaseContext database = new DatabaseContext())
             {
-                database.Client.Add(client);
+                database.Client.Add(viewModel.Client);
                 database.SaveChanges();
             }
             return RedirectToAction("CreateUser");
@@ -47,8 +63,23 @@ namespace WatchMNS.Controllers
             }
 
         }
-
         public IActionResult DisplayUserById(int id)
+        {
+            using (DatabaseContext database = new DatabaseContext())
+            {
+                Client? client = database.Client.Where(x => x.Id == id).FirstOrDefault();
+                return View(client);
+            }
+        }
+        public IActionResult SelectUser()
+        {
+            using (DatabaseContext database = new DatabaseContext())
+            {
+                List<Client> clientList = database.Client.ToList();
+                return View(clientList);
+            }
+        }
+        public IActionResult EditUser(int id)
         {
             using (DatabaseContext database = new DatabaseContext())
             {

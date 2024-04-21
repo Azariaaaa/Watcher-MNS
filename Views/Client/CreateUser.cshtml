@@ -1,98 +1,99 @@
 ﻿@using WatchMNS.Database
-@model WatchMNS.Models.Client
-
+@model WatchMNS.ViewModel.ClientRolesStatusViewModel
 @{
-    DatabaseContext database = new DatabaseContext();
-    List<Role> RolesList = database.Role.ToList();
-    List<ProfessionnalStatus> professionnalStatusesList = database.ProfessionnalStatus.ToList();
+    
+    // @model WatchMNS.Models.Client au dessus
+    // DatabaseContext database = new DatabaseContext();
+    // List<Role> RolesList = database.Role.ToList();
+    // List<ProfessionnalStatus> professionnalStatusesList = database.ProfessionnalStatus.ToList();
 }
 
 <h4 class="text-center text-light">Inscription</h4>
 <div class="row border rounded p-3 align-items-stretch">
-    <div class="form-sizing col-md-6">
-        <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-sizing col-md-6">
             <div class="mb-3">
                 <label for="Lastname" class="form-label text-light">Nom</label>
-                <input class="form-control" type="text" asp-for="@Model.Lastname">
-                <span asp-validation-for="@Model.Lastname" class="text-danger"></span>
+                <input class="form-control" type="text" asp-for="@Model.Client.Lastname">
+                <span asp-validation-for="@Model.Client.Lastname" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="Firstname" class="form-label text-light">Prénom</label>
-                <input class="form-control" type="text" asp-for="@Model.Firstname">
-                <span asp-validation-for="@Model.Firstname" class="text-danger"></span>
+                <input class="form-control" type="text" asp-for="@Model.Client.Firstname">
+                <span asp-validation-for="@Model.Client.Firstname" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="Password" class="form-label text-light">Mot de passe</label>
-                <input class="form-control" type="text" asp-for="@Model.Password">
-                <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                <input class="form-control" type="text" asp-for="@Model.Client.Password">
+                <span asp-validation-for="@Model.Client.Password" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="Email" class="form-label text-light">Mail</label>
-                <input class="form-control" type="email" asp-for="@Model.Email">
-                <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                <input class="form-control" type="email" asp-for="@Model.Client.Email">
+                <span asp-validation-for="@Model.Client.Email" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="Address" class="form-label text-light">Adresse</label>
-                <input class="form-control" type="text" asp-for="@Model.Address">
-                <span asp-validation-for="@Model.Address" class="text-danger"></span>
+                <input class="form-control" type="text" asp-for="@Model.Client.Address">
+                <span asp-validation-for="@Model.Client.Address" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="PostCode" class="form-label text-light">Code Postal</label>
-                <input class="form-control" type="text" asp-for="@Model.PostCode">
-                <span asp-validation-for="@Model.PostCode" class="text-danger"></span>
+                <input class="form-control" type="text" asp-for="@Model.Client.PostCode">
+                <span asp-validation-for="@Model.Client.PostCode" class="text-danger"></span>
             </div>
-        </form>
-    </div>
-    <div class="form-sizing col-md-6">
-        <form method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="City" class="form-label text-light">Ville</label>
-                <input class="form-control" type="text" asp-for="@Model.City">
-                <span asp-validation-for="@Model.City" class="text-danger"></span>
+                <input class="form-control" type="text" asp-for="@Model.Client.City">
+                <span asp-validation-for="@Model.Client.City" class="text-danger"></span>
             </div>
+        </div>
+        <div class="form-sizing col-md-6">
             <div class="mb-3">
                 <label for="Country" class="form-label text-light">Pays</label>
-                <input class="form-control" type="text" asp-for="@Model.Country">
-                <span asp-validation-for="@Model.Country" class="text-danger"></span>
+                <input class="form-control" type="text" asp-for="@Model.Client.Country">
+                <span asp-validation-for="@Model.Client.Country" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="BirthDate" class="form-label text-light">Date de naissance</label>
-                <input class="form-control" type="date" asp-for="@Model.BirthDate">
-                <span asp-validation-for="@Model.BirthDate" class="text-danger"></span>
+                <input class="form-control" type="date" asp-for="@Model.Client.BirthDate">
+                <span asp-validation-for="@Model.Client.BirthDate" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="NativeCity" class="form-label text-light">Ville de naissance</label>
-                <input class="form-control" type="text" asp-for="@Model.NativeCity">
-                <span asp-validation-for="@Model.NativeCity" class="text-danger"></span>
+                <input class="form-control" type="text" asp-for="@Model.Client.NativeCity">
+                <span asp-validation-for="@Model.Client.NativeCity" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="NativeCountry" class="form-label text-light">Pays de naissance</label>
-                <input class="form-control" type="text" asp-for="@Model.NativeCountry">
-                <span asp-validation-for="@Model.NativeCountry" class="text-danger"></span>
+                <input class="form-control" type="text" asp-for="@Model.Client.NativeCountry">
+                <span asp-validation-for="@Model.Client.NativeCountry" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label for="Role" class="form-label text-light">Role</label>
-                <select class="form-select" asp-for="@Model.RoleId">
-                    @foreach (Role role in RolesList)
+                <select class="form-select" asp-for="@Model.Client.RoleId">
+                    @foreach (Role role in Model.Roles)
                     {
                         <option value='@role.Id'>@role.Label</option>
                     }
                 </select>
             </div>
-            <div class="mb-3">
+            <div class="mb-5">
                 <label for="ProfessionnalStatus" class="form-label text-light">Professionnal Status</label>
-                <select class="form-select" asp-for="@Model.ProfessionnalStatusId">
-                    @foreach (ProfessionnalStatus professionnalStatus in professionnalStatusesList)
+                <select class="form-select" asp-for="@Model.Client.ProfessionnalStatusId">
+                    @foreach (ProfessionnalStatus professionnalStatus in Model.ProfessionnalStatuses)
                     {
                         <option value='@professionnalStatus.Id'>@professionnalStatus.Label</option>
                     }
                 </select>
             </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-warning mb-3">Envoyer</button>
+            <div class="col-auto text-center">
+                <button type="submit" class="btn btn-warning mb-3 col-3">Submit</button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+
+    
 </div>
 
 
