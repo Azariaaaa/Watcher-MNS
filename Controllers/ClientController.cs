@@ -40,7 +40,6 @@ namespace WatchMNS.Controllers
                     }
                 }
 
-                Console.WriteLine("ModelStat not valid.");
                 return View(viewModel);
             }
             
@@ -73,20 +72,35 @@ namespace WatchMNS.Controllers
         }
         public IActionResult SelectUser()
         {
-            using (DatabaseContext database = new DatabaseContext())
-            {
-                List<Client> clientList = database.Client.ToList();
-                return View(clientList);
-            }
+            List<Client> clientList = _dbContext.Client.ToList();
+            return View(clientList);
         }
         public IActionResult EditUser(int id)
         {
-            using (DatabaseContext database = new DatabaseContext())
-            {
-                Client? client = database.Client.Where(x => x.Id == id).FirstOrDefault();
-                return View(client);
-            }
+            Client? client = _dbContext.Client.Where(x => x.Id == id).FirstOrDefault();
+            return View(client);
         }
 
+        [HttpPost]
+        public IActionResult EditUser(Client model)
+        {
+            if (!ModelState.IsValid)
+            {
+                foreach (var key in ModelState.Keys)
+                {
+                    var error = ModelState[key].Errors.FirstOrDefault();
+                    if (error != null)
+                    {
+                        Console.WriteLine(error.ErrorMessage);
+                    }
+                }
+                return View(model);
+            }
+            var userToModify = _dbContext.Client.OrderBy(x => x.Id).First();
+            userToModify = model;
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("SelectUser");
+        }
     }
 }

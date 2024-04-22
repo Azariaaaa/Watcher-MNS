@@ -1,5 +1,4 @@
-﻿using WatchMNS.DTO;
-using WatchMNS.Models;
+﻿using WatchMNS.Models;
 
 namespace WatchMNS.ViewModel
 {
