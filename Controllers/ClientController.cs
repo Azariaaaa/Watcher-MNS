@@ -96,8 +96,26 @@ namespace WatchMNS.Controllers
                 }
                 return View(model);
             }
+
             var userToModify = _dbContext.Client.OrderBy(x => x.Id).First();
-            userToModify = model;
+
+            userToModify.Firstname = model.Firstname;
+            userToModify.Lastname = model.Lastname;
+            userToModify.Password = model.Password;
+            userToModify.Email = model.Email;
+            userToModify.Address = model.Address;
+            userToModify.PostCode = model.PostCode;
+            userToModify.City = model.City;
+            userToModify.Country = model.Country;
+            userToModify.BirthDate = model.BirthDate;
+            userToModify.NativeCity = model.NativeCity;
+            userToModify.NativeCountry = model.NativeCountry;
+            userToModify.RoleId = model.RoleId;
+            userToModify.ProfessionnalStatusId = model.ProfessionnalStatusId;
+            Console.WriteLine(userToModify.RoleId);
+            Console.WriteLine(userToModify.ProfessionnalStatusId);
+            
+
             _dbContext.SaveChanges();
 
             return RedirectToAction("SelectUser");
