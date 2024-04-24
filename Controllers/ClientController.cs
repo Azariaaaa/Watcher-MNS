@@ -73,7 +73,7 @@ namespace WatchMNS.Controllers
         }
         public IActionResult SelectUser()
         {
-            List<Client> clientList = _dbContext.Client.ToList();
+            List<Client> clientList = _dbContext.Client.OrderBy(x => x.Lastname).ToList();
             return View(clientList);
         }
         public IActionResult EditUser(int id)
@@ -104,7 +104,7 @@ namespace WatchMNS.Controllers
             {
                 foreach (string key in ModelState.Keys)
                 {
-                    ModelError error = ModelState[key].Errors.FirstOrDefault();
+                    ModelError? error = ModelState[key].Errors.FirstOrDefault();
                     if (error != null)
                     {
                         Console.WriteLine(error.ErrorMessage);
@@ -132,5 +132,20 @@ namespace WatchMNS.Controllers
 
             return RedirectToAction("SelectUser");
         }
+
+        public IActionResult DeleteUser(int Id)
+        {
+            Client client = _dbContext.Client.Where(x => x.Id ==  Id).FirstOrDefault();
+            if (client != null)
+            {
+                _dbContext.Client.Remove(client);
+                _dbContext.SaveChanges();
+                return RedirectToAction("SelectUser");
+            }
+
+            return RedirectToAction("Error");
+            
+        }
+
     }
 }
