@@ -1,6 +1,6 @@
 namespace WatchMNS
 {
-    public class Program
+    public class Program  //TEST COPIE PROJET !!!!!!!!!!!!!!!!!
     {
         public static void Main(string[] args)
         {

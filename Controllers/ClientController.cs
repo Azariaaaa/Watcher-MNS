@@ -34,7 +34,7 @@ namespace WatchMNS.Controllers
             {
                 foreach (var key in ModelState.Keys)
                 {
-                    var error = ModelState[key].Errors.FirstOrDefault();
+                    ModelError? error = ModelState[key].Errors.FirstOrDefault();
                     if (error != null)
                     {
                         Console.WriteLine(error.ErrorMessage); 
@@ -44,39 +44,33 @@ namespace WatchMNS.Controllers
                 return View(viewModel);
             }
             
-            using (DatabaseContext database = new DatabaseContext())
-            {
-                database.Client.Add(viewModel.Client);
-                database.SaveChanges();
-            }
+            
+            _dbContext.Client.Add(viewModel.Client);
+            _dbContext.SaveChanges();
+            
             return RedirectToAction("CreateUser");
         }
 
         public IActionResult DisplayUser()
         {
-            using (DatabaseContext database = new DatabaseContext())
-            {
-                List<Client> clients = new List<Client>();
-                clients = database.Client.ToList();
+            List<Client> clients = new List<Client>();
+            clients = _dbContext.Client.ToList();
 
-                return View(clients);
-            }
+            return View(clients);
 
         }
-        public IActionResult DisplayUserById(int id)
+        public IActionResult DisplayUserById(string id)
         {
-            using (DatabaseContext database = new DatabaseContext())
-            {
-                Client? client = database.Client.Where(x => x.Id == id).FirstOrDefault();
-                return View(client);
-            }
+            
+            Client? client = _dbContext.Client.Where(x => x.Id == id).FirstOrDefault();
+            return View(client);
         }
         public IActionResult SelectUser()
         {
             List<Client> clientList = _dbContext.Client.OrderBy(x => x.Lastname).ToList();
             return View(clientList);
         }
-        public IActionResult EditUser(int id)
+        public IActionResult EditUser(string id)
         {
             Client? client = _dbContext.Client.Where(x => x.Id == id).FirstOrDefault();
 
@@ -133,9 +127,9 @@ namespace WatchMNS.Controllers
             return RedirectToAction("SelectUser");
         }
 
-        public IActionResult DeleteUser(int Id)
+        public IActionResult DeleteUser(string Id)
         {
-            Client client = _dbContext.Client.Where(x => x.Id ==  Id).FirstOrDefault();
+            Client? client = _dbContext.Client.Where(x => x.Id ==  Id).FirstOrDefault();
             if (client != null)
             {
                 _dbContext.Client.Remove(client);
@@ -144,8 +138,6 @@ namespace WatchMNS.Controllers
             }
 
             return RedirectToAction("Error");
-            
         }
-
     }
 }

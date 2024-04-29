@@ -1,11 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 using WatchMNS.Models;
 
 namespace WatchMNS.Database
 {
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : IdentityDbContext<Client>
     {
+        public DatabaseContext()
+        {
+            
+        }
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
+
         public DbSet<Client> Client { get; set; }
         public DbSet<Document> Document{ get; set; }
         public DbSet<DocumentStatus> DocumentStatus { get; set; }
@@ -19,6 +26,7 @@ namespace WatchMNS.Database
         public DbSet<Role> Role { get; set; }
         public DbSet<Training> Training { get; set; }
         public DbSet<TrainingType> TrainingType { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = "server=localhost;Database=watcherdb;user=root;password=root";

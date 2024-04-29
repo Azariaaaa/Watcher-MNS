@@ -11,7 +11,7 @@ namespace WatchMNS.Database.CRUD
             return dbContext.Client.ToList();
         }
 
-        private Client GetById(int id)
+        private Client GetById(string id)
         {
             return dbContext.Client.Where(x => x.Id == id).FirstOrDefault();
         }
