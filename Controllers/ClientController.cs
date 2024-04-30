@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Numerics;
@@ -78,13 +79,13 @@ namespace WatchMNS.Controllers
             viewModel.Id = id;
             viewModel.Lastname = client.Lastname;
             viewModel.Firstname = client.Firstname;
-            viewModel.Password = client.Password;
+            //viewModel.Password = client.Password;
             viewModel.Email = client.Email;
             viewModel.Address = client.Address;
             viewModel.City = client.City;
             viewModel.PostCode = client.PostCode;
             viewModel.Country = client.Country;
-            viewModel.BirthDate = client.BirthDate;
+            //viewModel.BirthDate = client.BirthDate;
             viewModel.NativeCity = client.NativeCity;
             viewModel.NativeCountry = client.NativeCountry;
 
@@ -111,7 +112,7 @@ namespace WatchMNS.Controllers
 
             client.Lastname = viewModel.Lastname;
             client.Firstname = viewModel.Firstname;
-            client.Password = viewModel.Password;
+            //client.Password = viewModel.Password;
             client.Email = viewModel.Email;
             client.Address = viewModel.Address;
             client.City = viewModel.City;

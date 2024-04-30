@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Numerics;
+using System.Reflection.Emit;
 using WatchMNS.Models;
 
 namespace WatchMNS.Database
@@ -35,6 +36,11 @@ namespace WatchMNS.Database
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<IdentityUser>(b =>
+            {
+                b.Property(u => u.UserName).IsRequired(false);
+            });
 
             builder.Entity<Client>(entity =>
             {
@@ -71,5 +77,6 @@ namespace WatchMNS.Database
                 entity.ToTable(name: "UserRole");
             });
         }
+
     }
 }

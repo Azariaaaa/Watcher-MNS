@@ -4,7 +4,8 @@
 
 <h4 class="text-center text-light">Inscription</h4>
 <div class="row custom-border p-3 mx-auto fit-form">
-    <form method="post" enctype="multipart/form-data">
+    <form method="post">
+        <div class="text-danger" asp-validation-summary="All"></div>
         <div class="form-sizing col-md-6">
             <div class="mb-3">
                 <label for="Lastname" class="form-label text-light">Nom</label>
