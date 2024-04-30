@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 using WatchMNS.Models;
@@ -23,7 +24,6 @@ namespace WatchMNS.Database
         public DbSet<Notification> Notification { get; set; }
         public DbSet<NotificationType> NotificationType { get; set; }
         public DbSet<ProfessionnalStatus> ProfessionnalStatus { get; set; }
-        public DbSet<Role> Role { get; set; }
         public DbSet<Training> Training { get; set; }
         public DbSet<TrainingType> TrainingType { get; set; }
 
@@ -31,6 +31,45 @@ namespace WatchMNS.Database
         {
             string connectionString = "server=localhost;Database=watcherdb;user=root;password=root";
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Client>(entity =>
+            {
+                entity.ToTable(name: "User");
+            });
+
+            builder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable(name: "Role");
+            });
+
+            builder.Entity<IdentityRoleClaim<string>>(entity =>
+            {
+                entity.ToTable(name: "RoleClaim");
+            });
+
+            builder.Entity<IdentityUserClaim<string>>(entity =>
+            {
+                entity.ToTable(name: "UserClaim");
+            });
+
+            builder.Entity<IdentityUserLogin<string>>(entity =>
+            {
+                entity.ToTable(name: "UserLogin");
+            });
+
+            builder.Entity<IdentityUserToken<string>>(entity =>
+            {
+                entity.ToTable(name: "UserToken");
+            });
+
+            builder.Entity<IdentityUserRole<string>>(entity =>
+            {
+                entity.ToTable(name: "UserRole");
+            });
         }
     }
 }

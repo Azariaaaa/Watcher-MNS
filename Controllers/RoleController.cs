@@ -11,23 +11,5 @@ namespace WatchMNS.Controllers
         {
             return View();
         }
-
-        [HttpPost]
-        public IActionResult CreateRole(Role role)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(role);
-            }
-
-            using (DatabaseContext database = new DatabaseContext())
-            {
-                database.Role.Add(role);
-
-                database.SaveChanges();
-            }
-
-            return RedirectToAction("CreateRole");
-        }
     }
 }

@@ -62,15 +62,6 @@
                 <input class="form-control" type="text" asp-for="@Model.Client.NativeCountry">
                 <span asp-validation-for="@Model.Client.NativeCountry" class="text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label for="Role" class="form-label text-light">Role</label>
-                <select class="form-select" asp-for="@Model.Client.RoleId">
-                    @foreach (Role role in Model.Roles)
-                    {
-                        <option value='@role.Id'>@role.Label</option>
-                    }
-                </select>
-            </div>
             <div class="mb-5">
                 <label for="ProfessionnalStatus" class="form-label text-light">Professionnal Status</label>
                 <select class="form-select" asp-for="@Model.Client.ProfessionnalStatusId">

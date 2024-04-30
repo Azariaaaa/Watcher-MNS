@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WatchMNS.Database;
 
@@ -11,9 +12,11 @@ using WatchMNS.Database;
 namespace WatchMNS.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240430094922_TestTableName")]
+    partial class TestTableName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,7 +78,7 @@ namespace WatchMNS.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("Role", (string)null);
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -100,7 +103,7 @@ namespace WatchMNS.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaim", (string)null);
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -125,7 +128,7 @@ namespace WatchMNS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaim", (string)null);
+                    b.ToTable("AspNetUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -147,7 +150,7 @@ namespace WatchMNS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogin", (string)null);
+                    b.ToTable("AspNetUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -162,7 +165,7 @@ namespace WatchMNS.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRole", (string)null);
+                    b.ToTable("AspNetUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -181,7 +184,7 @@ namespace WatchMNS.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserToken", (string)null);
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("WatchMNS.Models.Client", b =>
@@ -291,6 +294,8 @@ namespace WatchMNS.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.HasIndex("ProfessionnalStatusId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("User", (string)null);
                 });
@@ -513,6 +518,23 @@ namespace WatchMNS.Migrations
                     b.ToTable("ProfessionnalStatus");
                 });
 
+            modelBuilder.Entity("WatchMNS.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+                });
+
             modelBuilder.Entity("WatchMNS.Models.Training", b =>
                 {
                     b.Property<int>("Id")
@@ -642,6 +664,12 @@ namespace WatchMNS.Migrations
                         .HasForeignKey("ProfessionnalStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("WatchMNS.Models.Role", null)
+                        .WithMany("Clients")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WatchMNS.Models.Document", b =>
@@ -736,6 +764,11 @@ namespace WatchMNS.Migrations
             modelBuilder.Entity("WatchMNS.Models.ProfessionnalStatus", b =>
                 {
                     b.Navigation("ClientList");
+                });
+
+            modelBuilder.Entity("WatchMNS.Models.Role", b =>
+                {
+                    b.Navigation("Clients");
                 });
 #pragma warning restore 612, 618
         }

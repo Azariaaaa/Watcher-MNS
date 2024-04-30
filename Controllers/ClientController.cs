@@ -19,7 +19,7 @@ namespace WatchMNS.Controllers
         public IActionResult CreateUser()
         {
             ClientRolesStatusViewModel viewModel = new ClientRolesStatusViewModel();
-            viewModel.Roles = _dbContext.Role.ToList();
+            //viewModel.Roles = _dbContext.Role.ToList();
             viewModel.ProfessionnalStatuses = _dbContext.ProfessionnalStatus.ToList();
             return View(viewModel);
         }
@@ -27,7 +27,7 @@ namespace WatchMNS.Controllers
         [HttpPost]
         public IActionResult CreateUser(ClientRolesStatusViewModel viewModel)
         {
-            viewModel.Roles = _dbContext.Role.ToList();
+            //viewModel.Roles = _dbContext.Role.ToList();
             viewModel.ProfessionnalStatuses = _dbContext.ProfessionnalStatus.ToList();
 
             if (!ModelState.IsValid)
