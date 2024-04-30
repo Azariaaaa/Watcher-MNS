@@ -1,0 +1,35 @@
+﻿@model WatchMNS.ViewModel.RegisterViewModel
+@{ 
+}
+
+<h4 class="text-center text-light">Inscription</h4>
+<div class="row custom-border p-3 mx-auto fit-form">
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-sizing col-md-6">
+            <div class="mb-3">
+                <label for="Lastname" class="form-label text-light">Nom</label>
+                <input class="form-control" type="text" asp-for="@Model.Lastname">
+                <span asp-validation-for="@Model.Lastname" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label for="Firstname" class="form-label text-light">Prénom</label>
+                <input class="form-control" type="text" asp-for="@Model.Firstname">
+                <span asp-validation-for="@Model.Firstname" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label for="Password" class="form-label text-light">Mot de passe</label>
+                <input class="form-control" type="password" asp-for="@Model.Password">
+                <span asp-validation-for="@Model.Password" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label for="Email" class="form-label text-light">Mail</label>
+                <input class="form-control" type="email" asp-for="@Model.Email">
+                <span asp-validation-for="@Model.Email" class="text-danger"></span>
+            </div>
+            
+            <div class="col-auto text-center">
+                <button type="submit" class="btn btn-warning mb-3 col-3">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
