@@ -14,7 +14,6 @@ namespace WatchMNS.Controllers
             _userManager = userManager;
         }
 
-
         public IActionResult Register()
         {
             return View("~/Views/Account/Register.cshtml");
@@ -39,7 +38,6 @@ namespace WatchMNS.Controllers
             var result = await _userManager.CreateAsync(client, viewModel.Password);
             if (result.Succeeded )
             {
-
                 Console.WriteLine("All Good doog.");
                 return RedirectToAction("Home");
             }
@@ -51,7 +49,6 @@ namespace WatchMNS.Controllers
                     ModelState.AddModelError("Register", error.Description);
                     return View(viewModel);
                 }
-
             }
 
             return RedirectToAction("Home");
