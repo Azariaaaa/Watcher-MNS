@@ -17,7 +17,7 @@ namespace WatchMNS.Controllers
 
         public IActionResult Register()
         {
-            return View();
+            return View("~/Views/Account/Register.cshtml");
         }
 
         [HttpPost]
@@ -25,7 +25,7 @@ namespace WatchMNS.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(viewModel);
+                return View("~/Views/Account/Register.cshtml", viewModel);
             }
 
             Client client = new Client
