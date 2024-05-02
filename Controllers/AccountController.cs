@@ -10,7 +10,6 @@ namespace WatchMNS.Controllers
         private SignInManager<Client> _signInManager { get; set; }
         private UserManager<Client> _userManager { get; set; }
 
-
         public AccountController(SignInManager<Client> signInManager, UserManager<Client> userManager)
         {
             _signInManager = signInManager;
