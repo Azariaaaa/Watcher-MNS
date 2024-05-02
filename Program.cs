@@ -23,6 +23,13 @@ namespace WatchMNS
                                 options.User.RequireUniqueEmail = true;
                             })
                             .AddEntityFrameworkStores<DatabaseContext>();
+                            
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Security/AccessDenied";
+                options.AccessDeniedPath = "/Security/AccessDenied";
+            });
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -42,6 +49,7 @@ namespace WatchMNS
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

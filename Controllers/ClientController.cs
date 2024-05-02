@@ -9,6 +9,7 @@ using WatchMNS.ViewModel;
 
 namespace WatchMNS.Controllers
 {
+    //SignOutAsync()
     public class ClientController : Controller
     {
         private DatabaseContext _dbContext = new DatabaseContext();

@@ -35,7 +35,7 @@ namespace WatchMNS.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Home");
+                return RedirectToAction("Index", "Home");
             }
             else
             {

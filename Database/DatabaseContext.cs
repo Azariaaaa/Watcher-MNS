@@ -37,11 +37,6 @@ namespace WatchMNS.Database
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<IdentityUser>(b =>
-            {
-                b.Property(u => u.UserName).IsRequired(false);
-            });
-
             builder.Entity<Client>(entity =>
             {
                 entity.ToTable(name: "User");
