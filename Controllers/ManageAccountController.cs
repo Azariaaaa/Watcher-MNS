@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using WatchMNS.ViewModel;
 
 namespace WatchMNS.Controllers
 {
+    [Authorize]
     public class ManageAccountController : Controller
     {
         private DatabaseContext _dbContext = new DatabaseContext();
@@ -74,5 +76,27 @@ namespace WatchMNS.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult DisplayUser()
+        {
+            string? id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Client? client = _dbContext.Client.Where(x => x.Id == id).FirstOrDefault();
+            DisplayUserViewModel viewModel = new DisplayUserViewModel();
+
+            viewModel.Id = id;
+            viewModel.Lastname = client.Lastname;
+            viewModel.Firstname = client.Firstname;
+            viewModel.Email = client.Email;
+            viewModel.Address = client.Address;
+            viewModel.City = client.City;
+            viewModel.PostCode = client.PostCode;
+            viewModel.Country = client.Country;
+            viewModel.PhoneNumber = client.PhoneNumber;
+            viewModel.NativeCity = client.NativeCity;
+            viewModel.NativeCountry = client.NativeCountry;
+
+            return View(viewModel);
+        }
+
     }
 }
