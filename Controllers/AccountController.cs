@@ -20,6 +20,11 @@ namespace WatchMNS.Controllers
         //LOGIN
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View("~/Views/Account/Login.cshtml");
         }
 
@@ -88,22 +93,34 @@ namespace WatchMNS.Controllers
             };
 
             var result = await _userManager.CreateAsync(client, viewModel.Password);
+
             if (result.Succeeded)
             {
-                Console.WriteLine("All Good doog.");
-                return RedirectToAction("Index", "Home");
+                var roleResult = await _userManager.AddToRoleAsync(client, "User");
+
+                if (roleResult.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in roleResult.Errors)
+                    {
+                        ModelState.AddModelError("Register", error.Description);
+                        Console.WriteLine($"Error adding role to user: {error.Description}");
+                    }
+                    return View(viewModel);
+                }
             }
             else
             {
                 foreach (var error in result.Errors)
                 {
-                    Console.WriteLine(error.Description);
                     ModelState.AddModelError("Register", error.Description);
-                    return View(viewModel);
+                    Console.WriteLine($"Error creating user: {error.Description}");
                 }
+                return View(viewModel);
             }
-
-            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -6,7 +6,7 @@ namespace WatchMNS
 {
     public class Program  // // // // --- Not A Copie --- // // // // 
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +23,18 @@ namespace WatchMNS
                                 options.User.RequireUniqueEmail = true;
                             })
                             .AddEntityFrameworkStores<DatabaseContext>();
-                            
+
+            var roleManager = builder.Services.BuildServiceProvider().GetRequiredService<RoleManager<IdentityRole>>();
+
+            var roles = new[] { "Admin", "Moderator", "User", "Guest" };
+
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
 
             builder.Services.ConfigureApplicationCookie(options =>
             {
@@ -51,7 +62,7 @@ namespace WatchMNS
             app.UseAuthorization();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Account}/{action=Login}/{id?}");
             app.Run();
         }
     }
