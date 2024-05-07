@@ -102,7 +102,12 @@ namespace WatchMNS.Controllers
             viewModel.PhoneNumber = client.PhoneNumber;
             viewModel.NativeCity = client.NativeCity;
             viewModel.NativeCountry = client.NativeCountry;
-            viewModel.ProfessionnalStatusLabel = clientProStatus.Label;
+
+            if(clientProStatus != null)
+                viewModel.ProfessionnalStatusLabel = clientProStatus.Label;
+            else
+                viewModel.ProfessionnalStatusLabel = "Aucun";
+
             viewModel.Role = clientRoles;
 
             return View(viewModel);
