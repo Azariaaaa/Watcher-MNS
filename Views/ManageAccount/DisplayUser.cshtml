@@ -3,10 +3,10 @@
 
 <div class="mt-5 mb-5 p-5 custom-border-5">
     <h1 class="text-light text-center mb-5 fw-bolder">Votre profil</h1>
-    <div class="card mb-3 bg-black bg-opacity-50 custom-border-5 mx-auto mt-3 col-8">
+    <div class="card bg-black bg-opacity-50 custom-border-5 mx-auto mt-3 col-8">
         <div class="row g-0">
             <div class="col-md-4">
-                <img src="~/images/missing-pp.jpg" class="img-fluid rounded-start" alt="...">
+                <img src="~/images/missing-pp.jpg" class="img-fluid rounded-start" alt="Profile picture">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -15,10 +15,17 @@
                     <h6 class="card-title text-light">@Model.PhoneNumber</h6>
                     <h6 class="card-title text-light">@Model.Address</h6>
                     <h6 class="card-title text-light">@Model.City - @Model.PostCode</h6>
-                    <a class="btn btn-warning mt-2" asp-controller="ManageAccount" asp-action="EditUser">Editer</a>
+                    @foreach(var role in Model.Role)
+                    {
+                        <h6 class ="card-title text-light">Role : @role</h6>
+                    }
+                    <h6 class="card-title text-light">Pro. Status : @Model.ProfessionnalStatusLabel</h6>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="text-center">
+        <a class="btn col-8 btn-dark border-1 border-light" asp-controller="ManageAccount" asp-action="EditUser">Editer</a>
     </div>
     <div class="col-8 bg-black bg-opacity-50 mx-auto  mt-5 custom-border-5">
         <div class="row d-flex justify-content-evenly">

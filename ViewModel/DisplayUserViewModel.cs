@@ -14,5 +14,7 @@
         public string? NativeCity { get; set; }
         public string? NativeCountry { get; set; }
         public string PhoneNumber { get; set; }
+        public IList<string> Role { get; set; }
+        public string? ProfessionnalStatusLabel { get; set; }
     }
 }

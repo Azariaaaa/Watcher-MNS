@@ -92,35 +92,25 @@ namespace WatchMNS.Controllers
                 UserName = viewModel.Email
             };
 
+            
             var result = await _userManager.CreateAsync(client, viewModel.Password);
 
             if (result.Succeeded)
             {
-                var roleResult = await _userManager.AddToRoleAsync(client, "User");
-
-                if (roleResult.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in roleResult.Errors)
-                    {
-                        ModelState.AddModelError("Register", error.Description);
-                        Console.WriteLine($"Error adding role to user: {error.Description}");
-                    }
-                    return View(viewModel);
-                }
+                await _userManager.AddToRoleAsync(client, "Admin"); // Ici fonctionne pas
+                return RedirectToAction("Index", "Home");
             }
             else
             {
                 foreach (var error in result.Errors)
                 {
+                    Console.WriteLine(error.Description);
                     ModelState.AddModelError("Register", error.Description);
-                    Console.WriteLine($"Error creating user: {error.Description}");
+                    return View(viewModel);
                 }
-                return View(viewModel);
             }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

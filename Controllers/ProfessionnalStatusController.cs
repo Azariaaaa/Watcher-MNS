@@ -5,7 +5,7 @@ using WatchMNS.Models;
 
 namespace WatchMNS.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class ProfessionnalStatusController : Controller
     {
         public IActionResult CreateProfessionnalStatus()

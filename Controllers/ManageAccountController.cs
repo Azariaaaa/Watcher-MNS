@@ -24,6 +24,8 @@ namespace WatchMNS.Controllers
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Client? client = _dbContext.Client.Where(x => x.Id == id).FirstOrDefault();
+            List<ProfessionnalStatus> professionnalStatusesList = _dbContext.ProfessionnalStatus.ToList();
+
 
             UserEditUserViewModel viewModel = new UserEditUserViewModel();
             viewModel.Id = id;
@@ -37,6 +39,8 @@ namespace WatchMNS.Controllers
             viewModel.PhoneNumber = client.PhoneNumber;
             viewModel.NativeCity = client.NativeCity;
             viewModel.NativeCountry = client.NativeCountry;
+            viewModel.ProfessionnalStatusId = client.ProfessionnalStatusId;
+            viewModel.professionnalStatuses = professionnalStatusesList;
 
             return View(viewModel);
         }
@@ -51,6 +55,7 @@ namespace WatchMNS.Controllers
                     ModelError? error = ModelState[key].Errors.FirstOrDefault();
                     if (error != null)
                     {
+                        Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                         Console.WriteLine(error.ErrorMessage);
                     }
                 }
@@ -70,6 +75,7 @@ namespace WatchMNS.Controllers
             client.PhoneNumber = viewModel.PhoneNumber;
             client.NativeCity = viewModel.NativeCity;
             client.NativeCountry = viewModel.NativeCountry;
+            client.ProfessionnalStatusId = viewModel.ProfessionnalStatusId;
 
             _dbContext.Client.Update(client);
             _dbContext.SaveChanges();
@@ -77,10 +83,12 @@ namespace WatchMNS.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult DisplayUser()
+        public async Task<IActionResult> DisplayUser()
         {
             string? id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Client? client = _dbContext.Client.Where(x => x.Id == id).FirstOrDefault();
+            var clientRoles = await _userManager.GetRolesAsync(client);
+            var clientProStatus = _dbContext.ProfessionnalStatus.Where(x => x.Id == client.ProfessionnalStatusId).FirstOrDefault();
             DisplayUserViewModel viewModel = new DisplayUserViewModel();
 
             viewModel.Id = id;
@@ -94,6 +102,8 @@ namespace WatchMNS.Controllers
             viewModel.PhoneNumber = client.PhoneNumber;
             viewModel.NativeCity = client.NativeCity;
             viewModel.NativeCountry = client.NativeCountry;
+            viewModel.ProfessionnalStatusLabel = clientProStatus.Label;
+            viewModel.Role = clientRoles;
 
             return View(viewModel);
         }
