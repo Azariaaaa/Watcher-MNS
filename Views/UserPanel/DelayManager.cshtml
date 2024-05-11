@@ -1,0 +1,36 @@
+﻿@model WatchMNS.ViewModel.DelayDeclarationViewModel
+
+<div class="container-fluid custom-border mb-3">
+    <h1>Vos retards : </h1>
+    @foreach (var delay in Model.lateMissesList)
+    {
+        <h3>Retard :</h3>
+        <p>Date de déclaration : @delay.DeclarationDate</p>
+        <p>Statut de validation : @delay.lateMissStatus.Label</p>
+        <p>Motif : ?</p>
+    }
+</div>
+
+<div class="custom-border text-light">
+    <h1 class="text-center">Déclarer un retard : </h1>
+    <form method="post">
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <div class="form-sizing col-md-6">
+            <div class="mb-3">
+                <label for="Motif" class="form-label text-light">Motif</label>
+                <input class="form-control" type="text" asp-for="@Model.Motif">
+                <span asp-validation-for="@Model.Motif" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label for="Document" class="form-label text-light">Image</label>
+                <input class="form-control" type="image">
+            </div>
+            <p class="text-center">Votre déclaration sera soumise à une validation administrative.</p>
+            <div class="col-auto text-center mt-3">
+                <button type="submit" class="btn btn-warning mb-3 col-3">Déclarer</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
