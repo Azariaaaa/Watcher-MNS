@@ -2,13 +2,18 @@
 
 <div class="container-fluid custom-border mb-3">
     <h1>Vos retards : </h1>
-    @foreach (var delay in Model.lateMissesList)
+
+    @if(Model.lateMissesList != null)
     {
-        <h3>Retard :</h3>
-        <p>Date de déclaration : @delay.DeclarationDate</p>
-        <p>Statut de validation : @delay.lateMissStatus.Label</p>
-        <p>Motif : ?</p>
+        @foreach (var delay in Model.lateMissesList)
+        {
+            <h3>Retard :</h3>
+            <p>Date de déclaration : @delay.DeclarationDate</p>
+            <p>Statut de validation : @delay.lateMissStatus.Label</p>
+            <p>Motif : ?</p>
+        }
     }
+
 </div>
 
 <div class="custom-border text-light">

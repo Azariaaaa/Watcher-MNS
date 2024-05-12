@@ -29,12 +29,26 @@ namespace WatchMNS.Controllers
         public IActionResult DelayManager()
         {
             string clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Client? client = _dbContext.Client.Where(x => x.Id == clientId).FirstOrDefault();
-            var result = _dbContext.LateMiss.Where(x => (x.Client == client) && (x.LateMissType == "Retard")).Include(x => x.lateMissStatus);
+            Client client = _dbContext.Client.FirstOrDefault(x => x.Id == clientId);
 
-            DelayDeclarationViewModel viewModel = new DelayDeclarationViewModel();
-            viewModel.Client = client;
-            viewModel.lateMissesList = () result; // voir avec result variable
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            var result = _dbContext.LateMiss
+                .Where(x => x.Client == client && x.LateMissType == "Retard")
+                .Include(x => x.lateMissStatus)
+                .ToList();
+
+            var viewModel = new DelayDeclarationViewModel
+            {
+                lateMissesList = result.Select(x => new LateMiss
+                {
+                    Id = x.Id,
+                    lateMissStatus = x.lateMissStatus,
+                }).ToList()
+            };
 
             return View(viewModel);
         }
@@ -47,11 +61,8 @@ namespace WatchMNS.Controllers
                 return View("~/Views/UserPanel/DelayManager.cshtml", viewModel);
             }
 
-            LateMissDoc lateMissDoc = new LateMissDoc();
-            lateMissDoc.Label = viewModel.Motif;
-            
-            LateMiss lateMiss = new LateMiss();
-            lateMiss.DeclarationDate = DateTime.Now.Date;
+            _dbContext.SaveChanges();
+
             return View();
         }
 

@@ -30,7 +30,7 @@ namespace WatchMNS.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "server=localhost;Database=watcherdb;user=root;password=root";
+            string connectionString = "server=localhost;port=3308;Database=watcherdbv2;user=root;password=root";
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
         protected override void OnModelCreating(ModelBuilder builder)
