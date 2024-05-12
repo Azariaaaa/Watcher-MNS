@@ -1,17 +1,22 @@
-﻿@model WatchMNS.ViewModel.DelayDeclarationViewModel
+﻿@using System.Security.Claims
+@model WatchMNS.ViewModel.DelayDeclarationViewModel
 
 <div class="container-fluid custom-border mb-3">
     <h1>Vos retards : </h1>
 
-    @if(Model.lateMissesList != null)
+    @if(Model.ExistingLateMisses.Count > 0)
     {
-        @foreach (var delay in Model.lateMissesList)
+        @foreach (var delay in Model.ExistingLateMisses)
         {
             <h3>Retard :</h3>
             <p>Date de déclaration : @delay.DeclarationDate</p>
             <p>Statut de validation : @delay.lateMissStatus.Label</p>
-            <p>Motif : ?</p>
+            <p>Motif : @delay.Reason</p>
         }
+    }
+    else
+    {
+        <p>Aucun retard à signaler.</p>
     }
 
 </div>
@@ -21,15 +26,17 @@
     <form method="post">
         <div class="text-danger" asp-validation-summary="All"></div>
         <div class="form-sizing col-md-6">
+            <input type="hidden" asp-for="NewLateMiss.LateMissType" value="Retard">
+            <input type="hidden" asp-for="NewLateMiss.Client.Id" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
             <div class="mb-3">
-                <label for="Motif" class="form-label text-light">Motif</label>
-                <input class="form-control" type="text" asp-for="@Model.Motif">
-                <span asp-validation-for="@Model.Motif" class="text-danger"></span>
+                <label for="Reason" class="form-label text-light">Motif</label>
+                <input class="form-control" type="text" asp-for="NewLateMiss.Reason">
+                <span asp-validation-for="NewLateMiss.Reason" class="text-danger"></span>
             </div>
-            <div class="mb-3">
+            @* <div class="mb-3">
                 <label for="Document" class="form-label text-light">Image</label>
                 <input class="form-control" type="image">
-            </div>
+            </div> *@
             <p class="text-center">Votre déclaration sera soumise à une validation administrative.</p>
             <div class="col-auto text-center mt-3">
                 <button type="submit" class="btn btn-warning mb-3 col-3">Déclarer</button>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WatchMNS.Database;
 
@@ -11,9 +12,11 @@ using WatchMNS.Database;
 namespace WatchMNS.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240512160220_LateMissModelUpdate")]
+    partial class LateMissModelUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -371,10 +374,10 @@ namespace WatchMNS.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime?>("DeclarationDate")
+                    b.Property<DateTime>("DeclarationDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("EndDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LateMissType")
@@ -388,7 +391,7 @@ namespace WatchMNS.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("lateMissStatusId")
+                    b.Property<int>("lateMissStatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -668,7 +671,9 @@ namespace WatchMNS.Migrations
 
                     b.HasOne("WatchMNS.Models.LateMissStatus", "lateMissStatus")
                         .WithMany("lateMisses")
-                        .HasForeignKey("lateMissStatusId");
+                        .HasForeignKey("lateMissStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
 

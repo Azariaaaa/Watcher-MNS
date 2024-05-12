@@ -36,18 +36,16 @@ namespace WatchMNS.Controllers
                 return NotFound();
             }
 
-            var result = _dbContext.LateMiss
-                .Where(x => x.Client == client && x.LateMissType == "Retard")
-                .Include(x => x.lateMissStatus)
+            var existingLateMisses = _dbContext.LateMiss
+                .Where(x => (x.Client == client) && (x.LateMissType == "Retard"))
                 .ToList();
+
+            var newLateMiss = new LateMiss();
 
             var viewModel = new DelayDeclarationViewModel
             {
-                lateMissesList = result.Select(x => new LateMiss
-                {
-                    Id = x.Id,
-                    lateMissStatus = x.lateMissStatus,
-                }).ToList()
+                ExistingLateMisses = existingLateMisses,
+                NewLateMiss = newLateMiss
             };
 
             return View(viewModel);
@@ -56,14 +54,29 @@ namespace WatchMNS.Controllers
         [HttpPost]
         public IActionResult DelayManager(DelayDeclarationViewModel viewModel)
         {
+            string clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Client client = _dbContext.Client.FirstOrDefault(x => x.Id == clientId);
+
+            viewModel.NewLateMiss.Client = client;
+            viewModel.NewLateMiss.DeclarationDate = DateTime.Now.Date;
+            viewModel.NewLateMiss.LateMissType = "Retard";
+            viewModel.NewLateMiss.StartDate = DateTime.Today.AddHours(8);
+
+            var existingLateMisses = _dbContext.LateMiss
+                    .Where(x => (x.Client == client) && (x.LateMissType == "Retard"))
+                    .ToList();
+
+            viewModel.ExistingLateMisses = existingLateMisses;
+
             if (!ModelState.IsValid)
             {
-                return View("~/Views/UserPanel/DelayManager.cshtml", viewModel);
+                return View(viewModel);
             }
-
+            
+            _dbContext.LateMiss.Add(viewModel.NewLateMiss);
             _dbContext.SaveChanges();
 
-            return View();
+            return RedirectToAction("DelayManager");
         }
 
     }
