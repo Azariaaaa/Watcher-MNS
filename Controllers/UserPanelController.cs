@@ -38,6 +38,7 @@ namespace WatchMNS.Controllers
 
             var existingLateMisses = _dbContext.LateMiss
                 .Where(x => (x.Client == client) && (x.LateMissType == "Retard"))
+                .Include(x => x.lateMissStatus)
                 .ToList();
 
             var newLateMiss = new LateMiss();
@@ -61,17 +62,20 @@ namespace WatchMNS.Controllers
             viewModel.NewLateMiss.DeclarationDate = DateTime.Now.Date;
             viewModel.NewLateMiss.LateMissType = "Retard";
             viewModel.NewLateMiss.StartDate = DateTime.Today.AddHours(8);
+            viewModel.NewLateMiss.lateMissStatus = _dbContext.LateMissStatus.Where(lms => lms.Label == "En Attente").FirstOrDefault();
+            
 
             var existingLateMisses = _dbContext.LateMiss
-                    .Where(x => (x.Client == client) && (x.LateMissType == "Retard"))
-                    .ToList();
+                .Where(x => (x.Client == client) && (x.LateMissType == "Retard"))
+                .Include(x => x.lateMissStatus)
+                .ToList();
 
             viewModel.ExistingLateMisses = existingLateMisses;
 
-            if (!ModelState.IsValid)
-            {
-                return View(viewModel);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(viewModel);
+            //}
             
             _dbContext.LateMiss.Add(viewModel.NewLateMiss);
             _dbContext.SaveChanges();

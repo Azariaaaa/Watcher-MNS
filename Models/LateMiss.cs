@@ -12,6 +12,6 @@ namespace WatchMNS.Models
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public Client Client { get; set; }
-        public LateMissStatus? lateMissStatus { get; set; }
+        public LateMissStatus? lateMissStatus { get; set; } = new LateMissStatus();
     }
 }

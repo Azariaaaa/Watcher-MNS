@@ -1,17 +1,19 @@
 ﻿@using System.Security.Claims
 @model WatchMNS.ViewModel.DelayDeclarationViewModel
 
-<div class="container-fluid custom-border mb-3">
-    <h1>Vos retards : </h1>
+<div class="container-fluid custom-border mb-3 p-3 text-light">
+    <h1 class="text-center">Vos retards : </h1>
 
     @if(Model.ExistingLateMisses.Count > 0)
     {
         @foreach (var delay in Model.ExistingLateMisses)
         {
-            <h3>Retard :</h3>
-            <p>Date de déclaration : @delay.DeclarationDate</p>
-            <p>Statut de validation : @delay.lateMissStatus.Label</p>
-            <p>Motif : @delay.Reason</p>
+            <div class="custom-border mt-3 p-3">
+                <h3 class="text-decoration-underline">Retard</h3>
+                <p><span class="fw-bold">Date de déclaration :</span> @delay.DeclarationDate</p>
+                <p><span class="fw-bold">Statut de validation :</span> @delay.lateMissStatus.Label</p>
+                <p><span class="fw-bold">Motif :</span> @delay.Reason</p>
+            </div>
         }
     }
     else
@@ -21,7 +23,7 @@
 
 </div>
 
-<div class="custom-border text-light">
+<div class="custom-border text-light p-3">
     <h1 class="text-center">Déclarer un retard : </h1>
     <form method="post">
         <div class="text-danger" asp-validation-summary="All"></div>
