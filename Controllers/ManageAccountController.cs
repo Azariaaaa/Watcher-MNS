@@ -89,8 +89,8 @@ namespace WatchMNS.Controllers
             Client? client = _dbContext.Client.Where(x => x.Id == id).FirstOrDefault();
             var clientRoles = await _userManager.GetRolesAsync(client);
             var clientProStatus = _dbContext.ProfessionnalStatus.Where(x => x.Id == client.ProfessionnalStatusId).FirstOrDefault();
-            int totalAbsence = _dbContext.LateMiss.Where(lm => lm.LateMissType == "Absence").ToList().Count();
-            int totalDelay = _dbContext.LateMiss.Where(lm => lm.LateMissType == "Retard").ToList().Count();
+            int totalAbsence = _dbContext.LateMiss.Where(lm => lm.LateMissType == "Absence" && lm.Client.Id == client.Id).ToList().Count();
+            int totalDelay = _dbContext.LateMiss.Where(lm => lm.LateMissType == "Retard" && lm.Client.Id == client.Id).ToList().Count();
             float absencePercentage = (float) (totalAbsence * 100) / 218;
             float delayPercentage = (float) (totalDelay * 100) / 218;
 
