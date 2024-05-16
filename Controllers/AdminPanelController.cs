@@ -36,8 +36,29 @@ namespace WatchMNS.Controllers
         [HttpPost]
         public IActionResult AdminPanel(AdminPanelViewModel viewModel)
         {
+            var clients = _dbContext.Client
+                .ToList();
+            var lateMisses = _dbContext.LateMiss
+                .ToList();
             Console.WriteLine(viewModel.SortOrder);
-            return View();
+            switch (viewModel.SortOrder)
+            {
+                case "default":
+                    clients.OrderBy(c => c.Lastname).ToList(); 
+                    break;
+                case "name_desc":
+                    clients.OrderByDescending(c => c.Lastname).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            viewModel.Clients = clients;
+            viewModel.LateMisses = lateMisses;
+            Console.WriteLine(viewModel.SortOrder);
+            Console.WriteLine(clients[0].Lastname);
+
+            return View(viewModel);
         }
 
     }
