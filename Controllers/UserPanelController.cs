@@ -83,5 +83,64 @@ namespace WatchMNS.Controllers
             return RedirectToAction("DelayManager");
         }
 
+        public IActionResult AbsenceManager()
+        {
+            string clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Client client = _dbContext.Client.FirstOrDefault(x => x.Id == clientId);
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            var existingLateMisses = _dbContext.LateMiss
+                .Where(x => (x.Client == client) && (x.LateMissType == "Absence"))
+                .Include(x => x.lateMissStatus)
+                .ToList();
+
+            var newLateMiss = new LateMiss();
+
+            var viewModel = new AbsenceDeclarationViewModel
+            {
+                ExistingLateMisses = existingLateMisses,
+                NewLateMiss = newLateMiss
+            };
+
+            return View(viewModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult AbsenceManager(AbsenceDeclarationViewModel viewModel)
+        {
+            string clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Client client = _dbContext.Client.FirstOrDefault(x => x.Id == clientId);
+
+            viewModel.NewLateMiss.Client = client;
+            viewModel.NewLateMiss.DeclarationDate = DateTime.Now.Date;
+            viewModel.NewLateMiss.LateMissType = "Absence";
+            viewModel.NewLateMiss.StartDate = DateTime.Today.AddHours(8);
+            viewModel.NewLateMiss.lateMissStatus = _dbContext.LateMissStatus.Where(lms => lms.Label == "En Attente").FirstOrDefault();
+
+
+            var existingLateMisses = _dbContext.LateMiss
+                .Where(x => (x.Client == client) && (x.LateMissType == "Absence"))
+                .Include(x => x.lateMissStatus)
+                .ToList();
+
+            viewModel.ExistingLateMisses = existingLateMisses;
+
+            //if (!ModelState.IsValid)
+            //{
+            //    return View(viewModel);
+            //}
+
+            _dbContext.LateMiss.Add(viewModel.NewLateMiss);
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("AbsenceManager");
+        }
+
+
     }
 }
