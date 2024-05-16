@@ -140,7 +140,5 @@ namespace WatchMNS.Controllers
 
             return RedirectToAction("AbsenceManager");
         }
-
-
     }
 }
