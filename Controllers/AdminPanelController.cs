@@ -32,5 +32,13 @@ namespace WatchMNS.Controllers
 
             return View(viewModel);
         }
+
+        [HttpPost]
+        public IActionResult AdminPanel(AdminPanelViewModel viewModel)
+        {
+            Console.WriteLine(viewModel.SortOrder);
+            return View();
+        }
+
     }
 }

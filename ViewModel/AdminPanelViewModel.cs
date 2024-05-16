@@ -6,5 +6,7 @@ namespace WatchMNS.ViewModel
     {
         public List<Client> Clients { get; set; }
         public List<LateMiss> LateMisses { get; set; }
+        public string SortOrder { get; set; } = "default";
+        
     }
 }

@@ -17,11 +17,24 @@
 </div>
 
 <div class="col-12 custom-border-5 text-light mt-4 p-4">
+    <form method="post">
+        <label asp-for="SortOrder" class="control-label text-light mt-3">Trier:</label>
+            <select class="form-select me-3 col-lg-12 col-4 mb-1 bg-dark text-light custom-border" size="1" asp-for="@Model.SortOrder">
+                <option value="default">Noms croissants</option>
+                <option value="name_desc">Noms décroissants</option>
+                <option value="absence_desc">Nombre absences</option>
+                <option value="delay_desc">Nombre retards</option>
+            </select>
+            <input type="submit" value="Trier" class="btn btn-dark border-2 custom-border mt-1 mb-4 col-6 col-md-auto" />
+    </form>
+    
     <ul class="list-group list-group-numbered list-group-item-dark custom-border">
             @foreach(Client client in Model.Clients)
             {
                     <li class="list-group-item bg-dark text-light">@client.Lastname @client.Firstname <a asp-controller="" asp-action="" class="text-decoration-underline ms-3">Edit</a></li>
             }
     </ul>
+    
 </div>
+
 
