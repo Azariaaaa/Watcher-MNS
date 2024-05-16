@@ -16,5 +16,10 @@
         public string PhoneNumber { get; set; }
         public IList<string> Role { get; set; }
         public string? ProfessionnalStatusLabel { get; set; }
+
+        public float AbsencePercentage { get; set; }
+        public float DelayPercentage { get; set; }
+        public int TotalAbsence { get; set; }
+        public int TotalDelay { get; set; }
     }
 }
