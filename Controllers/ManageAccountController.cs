@@ -22,9 +22,15 @@ namespace WatchMNS.Controllers
         }
         public IActionResult EditUser()
         {
-            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Client? client = _dbContext.Client.Where(x => x.Id == id).FirstOrDefault();
-            List<ProfessionnalStatus> professionnalStatusesList = _dbContext.ProfessionnalStatus.ToList();
+            string id = User
+                .FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Client? client = _dbContext.Client
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+
+            List<ProfessionnalStatus> professionnalStatusesList = _dbContext.ProfessionnalStatus
+                .ToList();
 
 
             UserEditUserViewModel viewModel = new UserEditUserViewModel();
@@ -62,7 +68,9 @@ namespace WatchMNS.Controllers
                 return View(viewModel);
             }
 
-            Client? client = _dbContext.Client.Where(x => x.Id == viewModel.Id).FirstOrDefault();
+            Client? client = _dbContext.Client
+                .Where(x => x.Id == viewModel.Id)
+                .FirstOrDefault();
 
             client.Lastname = viewModel.Lastname;
             client.Firstname = viewModel.Firstname;
@@ -85,12 +93,30 @@ namespace WatchMNS.Controllers
 
         public async Task<IActionResult> DisplayUser()
         {
-            string? id = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Client? client = _dbContext.Client.Where(x => x.Id == id).FirstOrDefault();
-            var clientRoles = await _userManager.GetRolesAsync(client);
-            var clientProStatus = _dbContext.ProfessionnalStatus.Where(x => x.Id == client.ProfessionnalStatusId).FirstOrDefault();
-            int totalAbsence = _dbContext.LateMiss.Where(lm => lm.LateMissType == "Absence" && lm.Client.Id == client.Id).ToList().Count();
-            int totalDelay = _dbContext.LateMiss.Where(lm => lm.LateMissType == "Retard" && lm.Client.Id == client.Id).ToList().Count();
+            string? id = User
+                .FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Client? client = _dbContext.Client
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+
+            var clientRoles = await _userManager
+                .GetRolesAsync(client);
+
+            var clientProStatus = _dbContext.ProfessionnalStatus
+                .Where(x => x.Id == client.ProfessionnalStatusId)
+                .FirstOrDefault();
+
+            int totalAbsence = _dbContext.LateMiss
+                .Where(lm => lm.LateMissType == "Absence" && lm.Client.Id == client.Id)
+                .ToList()
+                .Count();
+
+            int totalDelay = _dbContext.LateMiss
+                .Where(lm => lm.LateMissType == "Retard" && lm.Client.Id == client.Id)
+                .ToList()
+                .Count();
+
             float absencePercentage = (float) (totalAbsence * 100) / 218;
             float delayPercentage = (float) (totalDelay * 100) / 218;
 

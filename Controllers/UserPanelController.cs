@@ -21,15 +21,23 @@ namespace WatchMNS.Controllers
         }
         public IActionResult Panel()
         {
-            string clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Client? client = _dbContext.Client.Where(x => x.Id == clientId).FirstOrDefault();
+            string? clientId = User
+                .FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Client? client = _dbContext.Client
+                .Where(x => x.Id == clientId)
+                .FirstOrDefault();
+
             return View(client);
         }
 
         public IActionResult DelayManager()
         {
-            string clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Client client = _dbContext.Client.FirstOrDefault(x => x.Id == clientId);
+            string? clientId = User
+                .FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Client? client = _dbContext.Client
+                .FirstOrDefault(x => x.Id == clientId);
 
             if (client == null)
             {
@@ -55,14 +63,19 @@ namespace WatchMNS.Controllers
         [HttpPost]
         public IActionResult DelayManager(DelayDeclarationViewModel viewModel)
         {
-            string clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Client client = _dbContext.Client.FirstOrDefault(x => x.Id == clientId);
+            string? clientId = User
+                .FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Client? client = _dbContext.Client
+                .FirstOrDefault(x => x.Id == clientId);
 
             viewModel.NewLateMiss.Client = client;
             viewModel.NewLateMiss.DeclarationDate = DateTime.Now.Date;
             viewModel.NewLateMiss.LateMissType = "Retard";
             viewModel.NewLateMiss.StartDate = DateTime.Today.AddHours(8);
-            viewModel.NewLateMiss.lateMissStatus = _dbContext.LateMissStatus.Where(lms => lms.Label == "En Attente").FirstOrDefault();
+            viewModel.NewLateMiss.lateMissStatus = _dbContext.LateMissStatus
+                .Where(lms => lms.Label == "En Attente")
+                .FirstOrDefault();
             
 
             var existingLateMisses = _dbContext.LateMiss
@@ -85,8 +98,11 @@ namespace WatchMNS.Controllers
 
         public IActionResult AbsenceManager()
         {
-            string clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Client client = _dbContext.Client.FirstOrDefault(x => x.Id == clientId);
+            string? clientId = User
+                .FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Client? client = _dbContext.Client
+                .FirstOrDefault(x => x.Id == clientId);
 
             if (client == null)
             {
@@ -113,14 +129,19 @@ namespace WatchMNS.Controllers
         [HttpPost]
         public IActionResult AbsenceManager(AbsenceDeclarationViewModel viewModel)
         {
-            string clientId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Client client = _dbContext.Client.FirstOrDefault(x => x.Id == clientId);
+            string? clientId = User
+                .FindFirstValue(ClaimTypes.NameIdentifier);
+
+            Client? client = _dbContext.Client
+                .FirstOrDefault(x => x.Id == clientId);
 
             viewModel.NewLateMiss.Client = client;
             viewModel.NewLateMiss.DeclarationDate = DateTime.Now.Date;
             viewModel.NewLateMiss.LateMissType = "Absence";
             viewModel.NewLateMiss.StartDate = DateTime.Today.AddHours(8);
-            viewModel.NewLateMiss.lateMissStatus = _dbContext.LateMissStatus.Where(lms => lms.Label == "En Attente").FirstOrDefault();
+            viewModel.NewLateMiss.lateMissStatus = _dbContext.LateMissStatus
+                .Where(lms => lms.Label == "En Attente")
+                .FirstOrDefault();
 
 
             var existingLateMisses = _dbContext.LateMiss

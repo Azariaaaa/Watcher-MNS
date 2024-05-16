@@ -21,7 +21,7 @@ namespace WatchMNS.Controllers
         public IActionResult Index()
         {
             if (User.IsInRole("Admin"))
-                return RedirectToAction("AdminIndex", "Home");
+                return RedirectToAction("Panel", "AdminPanel");
 
             if (User.IsInRole("User"))
                 return RedirectToAction("Panel", "UserPanel");
