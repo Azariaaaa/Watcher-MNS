@@ -97,7 +97,7 @@ namespace WatchMNS.Controllers
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(client, "User"); // Ici fonctionne pas
+                await _userManager.AddToRoleAsync(client, "User");
                 return RedirectToAction("Index", "Home");
             }
             else

@@ -23,6 +23,7 @@ namespace WatchMNS.Controllers
             AdminPanelViewModel viewModel = new AdminPanelViewModel();
 
             var clients = _dbContext.Client
+                .OrderBy(c => c.Lastname)
                 .ToList();
             var lateMisses = _dbContext.LateMiss
                 .ToList();   
@@ -44,10 +45,10 @@ namespace WatchMNS.Controllers
             switch (viewModel.SortOrder)
             {
                 case "default":
-                    clients.OrderBy(c => c.Lastname).ToList(); 
+                    clients = clients.OrderBy(c => c.Lastname).ToList(); 
                     break;
                 case "name_desc":
-                    clients.OrderByDescending(c => c.Lastname).ToList();
+                    clients = clients.OrderByDescending(c => c.Lastname).ToList();
                     break;
                 default:
                     break;
