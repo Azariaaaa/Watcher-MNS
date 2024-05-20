@@ -41,7 +41,7 @@ namespace WatchMNS.Controllers
                 .ToList();
             var lateMisses = _dbContext.LateMiss
                 .ToList();
-            Console.WriteLine(viewModel.SortOrder);
+
             switch (viewModel.SortOrder)
             {
                 case "default":
@@ -49,6 +49,28 @@ namespace WatchMNS.Controllers
                     break;
                 case "name_desc":
                     clients = clients.OrderByDescending(c => c.Lastname).ToList();
+                    break;
+                case "absence_desc":
+                    clients = _dbContext.Client
+                        .Select(c => new
+                        {
+                            Client = c,
+                            AbsenceCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == c.Id && lm.LateMissType == "Absence")
+                        })
+                        .OrderByDescending(c => c.AbsenceCount)
+                        .Select(c => c.Client)
+                        .ToList();
+                    break;
+                case "delay_desc":
+                    clients = _dbContext.Client
+                        .Select(c => new
+                        {
+                            Client = c,
+                            DelayCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == c.Id && lm.LateMissType == "Retard")
+                        })
+                        .OrderByDescending(c => c.DelayCount)
+                        .Select(c => c.Client)
+                        .ToList();
                     break;
                 default:
                     break;
