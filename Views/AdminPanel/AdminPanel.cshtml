@@ -29,10 +29,21 @@
     </form>
     
     <ul class="list-group list-group-numbered list-group-item-dark custom-border">
-            @foreach(Client client in Model.Clients)
-            {
-                    <li class="list-group-item bg-dark text-light">@client.Lastname @client.Firstname <a asp-controller="" asp-action="" class="text-decoration-underline ms-3">Edit</a></li>
-            }
+        @foreach (var clientData in Model.ClientsData)
+        {
+            //<li class="list-group-item bg-dark text-light "><span class="fw-bolder">@clientData.Key.Lastname @clientData.Key.Firstname</span> [ABS : @clientData.Value[0]] [DELAY : @clientData.Value[1]]<a asp-controller="" asp-action="" class="text-decoration-underline ms-3">Edit</a></li>
+            <li class="text-light bg-dark">
+                <div class="custom-border ms-4 me-4 ps-4">
+                    <div class=" d-inline-flex">
+                        <div class="d-flex flex-column fw-bolder m-auto fw-lighter"><span class="text-capitalize">@clientData.Key.Lastname</span> @clientData.Key.Firstname</div>
+                        <div class="d-flex flex-column mt-3 ms-5">
+                            <p>Absence : @clientData.Value[0]</p>
+                            <p>Retard : @clientData.Value[1]</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
     </ul>
     
 </div>

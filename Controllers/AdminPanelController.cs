@@ -22,13 +22,16 @@ namespace WatchMNS.Controllers
         {
             AdminPanelViewModel viewModel = new AdminPanelViewModel();
 
-            var clients = _dbContext.Client
-                .OrderBy(c => c.Lastname)
-                .ToList();
-            var lateMisses = _dbContext.LateMiss
-                .ToList();   
+            var clients = _dbContext.Client.ToList();
+            var lateMisses = _dbContext.LateMiss.ToList();
 
-            viewModel.Clients = clients;
+            foreach (var client in clients)
+            {
+                int absenceCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == client.Id && lm.LateMissType == "Absence");
+                int delayCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == client.Id && lm.LateMissType == "Retard");
+                viewModel.ClientsData.Add(client, [absenceCount, delayCount]);
+            }
+
             viewModel.LateMisses = lateMisses;
 
             return View(viewModel);
@@ -37,49 +40,45 @@ namespace WatchMNS.Controllers
         [HttpPost]
         public IActionResult AdminPanel(AdminPanelViewModel viewModel)
         {
-            var clients = _dbContext.Client
-                .ToList();
-            var lateMisses = _dbContext.LateMiss
-                .ToList();
+            var clients = _dbContext.Client.ToList();
+            var lateMisses = _dbContext.LateMiss.ToList();
 
+            // Populate the ClientsData dictionary with absence and delay counts
+            foreach (var client in clients)
+            {
+                int absenceCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == client.Id && lm.LateMissType == "Absence");
+                int delayCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == client.Id && lm.LateMissType == "Retard");
+                viewModel.ClientsData[client] = [absenceCount, delayCount];
+            }
+
+            // Sort the dictionary based on the selected order
             switch (viewModel.SortOrder)
             {
                 case "default":
-                    clients = clients.OrderBy(c => c.Lastname).ToList(); 
+                    viewModel.ClientsData = viewModel.ClientsData
+                        .OrderBy(cd => cd.Key.Lastname)
+                        .ToDictionary(cd => cd.Key, cd => cd.Value);
                     break;
                 case "name_desc":
-                    clients = clients.OrderByDescending(c => c.Lastname).ToList();
+                    viewModel.ClientsData = viewModel.ClientsData
+                        .OrderByDescending(cd => cd.Key.Lastname)
+                        .ToDictionary(cd => cd.Key, cd => cd.Value);
                     break;
                 case "absence_desc":
-                    clients = _dbContext.Client
-                        .Select(c => new
-                        {
-                            Client = c,
-                            AbsenceCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == c.Id && lm.LateMissType == "Absence")
-                        })
-                        .OrderByDescending(c => c.AbsenceCount)
-                        .Select(c => c.Client)
-                        .ToList();
+                    viewModel.ClientsData = viewModel.ClientsData
+                        .OrderByDescending(cd => cd.Value[0])
+                        .ToDictionary(cd => cd.Key, cd => cd.Value);
                     break;
                 case "delay_desc":
-                    clients = _dbContext.Client
-                        .Select(c => new
-                        {
-                            Client = c,
-                            DelayCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == c.Id && lm.LateMissType == "Retard")
-                        })
-                        .OrderByDescending(c => c.DelayCount)
-                        .Select(c => c.Client)
-                        .ToList();
+                    viewModel.ClientsData = viewModel.ClientsData
+                        .OrderByDescending(cd => cd.Value[1])
+                        .ToDictionary(cd => cd.Key, cd => cd.Value);
                     break;
                 default:
                     break;
             }
 
-            viewModel.Clients = clients;
             viewModel.LateMisses = lateMisses;
-            Console.WriteLine(viewModel.SortOrder);
-            Console.WriteLine(clients[0].Lastname);
 
             return View(viewModel);
         }
