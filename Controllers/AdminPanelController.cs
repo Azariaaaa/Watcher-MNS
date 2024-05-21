@@ -43,7 +43,6 @@ namespace WatchMNS.Controllers
             var clients = _dbContext.Client.ToList();
             var lateMisses = _dbContext.LateMiss.ToList();
 
-            // Populate the ClientsData dictionary with absence and delay counts
             foreach (var client in clients)
             {
                 int absenceCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == client.Id && lm.LateMissType == "Absence");
@@ -51,7 +50,6 @@ namespace WatchMNS.Controllers
                 viewModel.ClientsData[client] = [absenceCount, delayCount];
             }
 
-            // Sort the dictionary based on the selected order
             switch (viewModel.SortOrder)
             {
                 case "default":
