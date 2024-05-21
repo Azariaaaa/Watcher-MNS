@@ -10,11 +10,12 @@ namespace WatchMNS.Controllers
     {
         private DatabaseContext _dbContext = new DatabaseContext();
         private UserManager<Client> _userManager { get; set; }
+        private RoleManager<IdentityRole> _roleManager { get; set; }
 
-
-        public AdminController(UserManager<Client> userManager)
+        public AdminController(UserManager<Client> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
         public async Task<IActionResult> ManageRole(string id)
         {
@@ -34,7 +35,18 @@ namespace WatchMNS.Controllers
                 viewModel.Role = clientRole;
             }
 
+            List<IdentityRole> existingRoles = _roleManager.Roles.ToList();
+
+            viewModel.ExistingRoles = existingRoles;
+
             return View(viewModel);
         }
+
+        //[HttpPost]
+        //public IActionResult ManageRole(AdminEditRoleViewModel viewModel)
+        //{
+        //    _userManager.role
+        //}
+
     }
 }

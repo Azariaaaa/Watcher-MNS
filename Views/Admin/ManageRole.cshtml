@@ -1,4 +1,5 @@
-﻿@model WatchMNS.ViewModel.AdminEditRoleViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@model WatchMNS.ViewModel.AdminEditRoleViewModel
 
 <div class="text-light h1">
     @Model.Client.Firstname
@@ -8,4 +9,23 @@
         <h1>Role : @role</h1>
     }
 </div>
+
+<form asp-controller="Admin" asp-action="ManageRole" method="post">
+    <input type="hidden" asp-for="Client" />
+    <div class="mb-3">
+        <label for="selectedUser" class="form-label text-light">Select a new role : </label>
+        <select class="form-select">
+            @foreach (IdentityRole existingRole in Model.ExistingRoles)
+            {
+                if(!Model.Role.Contains(existingRole.Name))
+                {
+                    <option value='@existingRole.Name'>@existingRole.Name</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-warning mb-3">Enregistrer</button>
+    </div>
+</form>
 

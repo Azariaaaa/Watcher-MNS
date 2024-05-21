@@ -7,6 +7,7 @@ namespace WatchMNS.ViewModel
     {
         public Client? Client { get; set; }
         public IList<string>? Role { get; set; }
+        public List<IdentityRole>? ExistingRoles { get; set; }
 
     }
 }
