@@ -45,8 +45,12 @@ namespace WatchMNS.Controllers
 
             foreach (var client in clients)
             {
-                int absenceCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == client.Id && lm.LateMissType == "Absence");
-                int delayCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == client.Id && lm.LateMissType == "Retard");
+                int absenceCount = _dbContext.LateMiss
+                    .Count(lm => lm.Client.Id == client.Id && lm.LateMissType == "Absence");
+
+                int delayCount = _dbContext.LateMiss
+                    .Count(lm => lm.Client.Id == client.Id && lm.LateMissType == "Retard");
+
                 viewModel.ClientsData[client] = [absenceCount, delayCount];
             }
 

@@ -4,7 +4,7 @@
 
 <div class="col-12 custom-border-5 d-lg-flex justify-content-between p-4">
     <div class="col-12 col-lg-2 custom-border d-flex flex-column justify-content-center align-items-center">
-        <a class="btn btn-dark border-2 custom-border col-10 col-md-10 mt-3" asp-controller="ManageAccount" asp-action="EditUser">Editer mon profil</a>
+        <a class="btn btn-dark border-2 custom-border col-10 col-md-10 mt-3" asp-controller="ManageAccount" asp-action="EditUser">Gestion des roles</a>
         <a class="btn btn-dark border-2 custom-border col-10 col-md-10 mt-3" asp-controller="UserPanel" asp-action="AbsenceManager">Gestion d'absence</a>
         <a class="btn btn-dark border-2 custom-border col-10 col-md-10 mt-3" asp-controller="UserPanel" asp-action="DelayManager">Gestion de retard</a>
         <a class="btn btn-dark border-2 custom-border col-10 col-md-10 mt-3" asp-controller="ManageAccount" asp-action="EditUser">Gestion de Document</a>
@@ -19,7 +19,7 @@
 <div class="col-12 custom-border-5 text-light mt-4 p-4">
     <form method="post">
         <label asp-for="SortOrder" class="control-label text-light mt-3">Trier:</label>
-            <select class="form-select me-3 col-lg-12 col-4 mb-1 bg-dark text-light custom-border" size="1" asp-for="@Model.SortOrder">
+            <select class="form-select me-3 mb-1 bg-dark text-light custom-border" size="1" asp-for="@Model.SortOrder">
                 <option value="default">Noms croissants</option>
                 <option value="name_desc">Noms décroissants</option>
                 <option value="absence_desc">Nombre absences</option>
@@ -39,6 +39,13 @@
                         <div class="d-flex flex-column mt-3 ms-5">
                             <p>Absence : @clientData.Value[0]</p>
                             <p>Retard : @clientData.Value[1]</p>
+                        </div>
+                        <div class="ms-4 h5 m-auto card-text ">
+                            <a class="me-2" asp-action="" asp-controller="" id="@clientData.Key.Id">Editer</a>
+                            <a class="me-2" asp-action="" asp-controller="">Role</a>
+                            <a class="me-2" asp-action="" asp-controller="">Documents</a>
+                            <a class="me-2" asp-action="" asp-controller="">Absences</a>
+                            <a class="me-2" asp-action="" asp-controller="">Retards</a>
                         </div>
                     </div>
                 </div>
