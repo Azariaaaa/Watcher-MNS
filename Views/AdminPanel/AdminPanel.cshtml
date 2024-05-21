@@ -40,12 +40,12 @@
                             <p>Absence : @clientData.Value[0]</p>
                             <p>Retard : @clientData.Value[1]</p>
                         </div>
-                        <div class="ms-4 h5 m-auto card-text ">
-                            <a class="me-2" asp-action="" asp-controller="" id="@clientData.Key.Id">Editer</a>
-                            <a class="me-2" asp-action="" asp-controller="">Role</a>
-                            <a class="me-2" asp-action="" asp-controller="">Documents</a>
-                            <a class="me-2" asp-action="" asp-controller="">Absences</a>
-                            <a class="me-2" asp-action="" asp-controller="">Retards</a>
+                        <div class="ms-5 h5 m-auto card-text p-2">
+                            @Html.ActionLink("Éditer", "Edit", "User", new { id = clientData.Key.Id }, null)
+                            @Html.ActionLink("Role", "ManageRole", "Admin", new { id = clientData.Key.Id }, null)
+                            @Html.ActionLink("Documents", "Edit", "User", new { id = clientData.Key.Id }, null)
+                            @Html.ActionLink("Absences", "Edit", "User", new { id = clientData.Key.Id }, null)
+                            @Html.ActionLink("Retards", "Edit", "User", new { id = clientData.Key.Id }, null)
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,11 @@
+﻿@model WatchMNS.ViewModel.AdminEditRoleViewModel
+
+<div class="text-light h1">
+    @Model.Client.Firstname
+    @Model.Client.Lastname
+    @foreach(var role in Model.Role)
+    {
+        <h1>Role : @role</h1>
+    }
+</div>
+
