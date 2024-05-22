@@ -25,7 +25,9 @@ namespace WatchMNS.Controllers
                 .Where(client => client.Id == id)
                 .FirstOrDefault();
 
-            viewModel.Client = client;
+            viewModel.ClientId = id;
+            viewModel.ClientLastname = client.Lastname;
+            viewModel.ClientFirstname = client.Firstname;
 
             if (client != null)
             {
@@ -42,11 +44,19 @@ namespace WatchMNS.Controllers
             return View(viewModel);
         }
 
-        //[HttpPost]
-        //public IActionResult ManageRole(AdminEditRoleViewModel viewModel)
-        //{
-        //    _userManager.role
-        //}
+        [HttpPost]
+        public async Task<IActionResult> ManageRole(AdminEditRoleViewModel viewModel)
+        {
+            Client client = await _userManager.FindByIdAsync(viewModel.ClientId);
+            IList<string> CurrentUserRole = await _userManager.GetRolesAsync(client);
+            await _userManager.RemoveFromRolesAsync(client, CurrentUserRole);
+            await _userManager.AddToRoleAsync(client, viewModel.NewRoleName);
+            Console.WriteLine("viewModel.Client.Id" + viewModel.ClientId);
+            Console.WriteLine("Current user role : " + CurrentUserRole[0]);
+            Console.WriteLine("New role name : " + viewModel.NewRoleName);
+
+            return RedirectToAction("AdminPanel", "AdminPanel");
+        }
 
     }
 }

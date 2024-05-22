@@ -2,19 +2,19 @@
 @model WatchMNS.ViewModel.AdminEditRoleViewModel
 
 <div class="text-light h1">
-    @Model.Client.Firstname
-    @Model.Client.Lastname
+    @Model.ClientFirstname
+    @Model.ClientLastname
     @foreach(var role in Model.Role)
     {
-        <h1>Role : @role</h1>
+        <h1>Role actuel : @role</h1>
     }
 </div>
 
 <form asp-controller="Admin" asp-action="ManageRole" method="post">
-    <input type="hidden" asp-for="Client" />
+    <input type="hidden" asp-for="@Model.ClientId" value="@Model.ClientId">
     <div class="mb-3">
         <label for="selectedUser" class="form-label text-light">Select a new role : </label>
-        <select class="form-select">
+        <select class="form-select" asp-for="@Model.NewRoleName">
             @foreach (IdentityRole existingRole in Model.ExistingRoles)
             {
                 if(!Model.Role.Contains(existingRole.Name))
