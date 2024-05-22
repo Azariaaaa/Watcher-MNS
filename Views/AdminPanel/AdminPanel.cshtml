@@ -41,7 +41,7 @@
                             <p>Retard : @clientData.Value[1]</p>
                         </div>
                         <div class="ms-5 h5 m-auto card-text p-2">
-                            @Html.ActionLink("Éditer", "Edit", "User", new { id = clientData.Key.Id }, null)
+                            @Html.ActionLink("Éditer", "AdminEditUser", "Admin", new { id = clientData.Key.Id }, null)
                             @Html.ActionLink("Role", "ManageRole", "Admin", new { id = clientData.Key.Id }, null)
                             @Html.ActionLink("Documents", "Edit", "User", new { id = clientData.Key.Id }, null)
                             @Html.ActionLink("Absences", "Edit", "User", new { id = clientData.Key.Id }, null)
