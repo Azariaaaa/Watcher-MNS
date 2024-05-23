@@ -24,8 +24,9 @@
 </div>
 
 <div class="custom-border bg-dark bg-opacity-50 text-light p-3">
-    <h1 class="text-center">Déclarer une absence : </h1>
+    <h1 class="text-center">Déclarer @Model.User.Lastname @Model.User.Firstname absent(e) : </h1>
     <form method="post">
+        <input type="hidden" asp-for="@Model.User.Id" value="@Model.User.Id">
         <div class="text-danger" asp-validation-summary="All"></div>
         <div class="form-sizing col-md-6">
             <input type="hidden" asp-for="NewLateMiss.LateMissType" value="Absence">
@@ -39,7 +40,6 @@
             <label for="Document" class="form-label text-light">Image</label>
             <input class="form-control" type="image">
             </div> *@
-            <p class="text-center">Votre déclaration sera soumise à une validation administrative.</p>
             <div class="col-auto text-center mt-3">
                 <a class="btn btn-dark border-2 custom-border mt-3 mb-2 me-2 col-6 col-md-2" asp-controller="UserPanel" asp-action="Panel">Retour</a>
                 <button type="submit" class="btn btn-dark border-2 custom-border mt-3 mb-2 me-2 col-6 col-md-2">Déclarer</button>

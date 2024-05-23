@@ -137,6 +137,35 @@ namespace WatchMNS.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AdminAbsenceManager(AdminAbsenceDeclarationViewModel viewModel)
+        {
+            Client? client = _dbContext.Client
+                .FirstOrDefault(x => x.Id == viewModel.User.Id);
+
+            viewModel.NewLateMiss.Client = client;
+            viewModel.NewLateMiss.DeclarationDate = DateTime.Now.Date;
+            viewModel.NewLateMiss.LateMissType = "Absence";
+            viewModel.NewLateMiss.StartDate = DateTime.Today.AddHours(8);
+            viewModel.NewLateMiss.lateMissStatus = _dbContext.LateMissStatus
+                .Where(lms => lms.Label == "Traité")
+                .FirstOrDefault();
+
+
+            var existingLateMisses = _dbContext.LateMiss
+                .Where(x => (x.Client == client) && (x.LateMissType == "Absence"))
+                .Include(x => x.lateMissStatus)
+                .ToList();
+
+            viewModel.ExistingLateMisses = existingLateMisses;
+
+            _dbContext.LateMiss.Add(viewModel.NewLateMiss);
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("AdminPanel", "AdminPanel");
+        }
+
+
         public async Task<IActionResult> AdminDelayManager(string id)
         {
             Client? client = _dbContext.Client
