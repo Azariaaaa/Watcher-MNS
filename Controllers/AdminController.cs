@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using WatchMNS.ViewModel;
 
 namespace WatchMNS.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private DatabaseContext _dbContext = new DatabaseContext();
@@ -183,8 +185,9 @@ namespace WatchMNS.Controllers
 
             var newLateMiss = new LateMiss();
 
-            var viewModel = new DelayDeclarationViewModel
+            var viewModel = new AdminDelayDeclarationViewModel
             {
+                User = client,
                 ExistingLateMisses = existingLateMisses,
                 NewLateMiss = newLateMiss
             };

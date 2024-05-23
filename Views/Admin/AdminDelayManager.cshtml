@@ -3,3 +3,51 @@
 *@
 @{
 }
+@using System.Security.Claims
+@model WatchMNS.ViewModel.AdminDelayDeclarationViewModel
+
+<div class="container-fluid custom-border mb-3 p-3 mt-3 text-light">
+    <h1 class="text-center">Retard(s) de @Model.User.Lastname @Model.User.Firstname : </h1>
+
+    @if (Model.ExistingLateMisses.Count > 0)
+    {
+        @foreach (var delay in Model.ExistingLateMisses)
+        {
+            <div class="custom-border mt-3 p-3">
+                <h3 class="text-decoration-underline">Retard</h3>
+                <p><span class="fw-bold">Date de déclaration :</span> @delay.DeclarationDate</p>
+                <p><span class="fw-bold">Statut de validation :</span> @delay.lateMissStatus.Label</p>
+                <p><span class="fw-bold">Motif :</span> @delay.Reason</p>
+            </div>
+        }
+    }
+    else
+    {
+        <p>Aucun retard à signaler.</p>
+    }
+
+</div>
+
+<div class="custom-border bg-dark bg-opacity-50 text-light p-3">
+    <h1 class="text-center">Déclarer @Model.User.Lastname @Model.User.Firstname en retard :</h1>
+    <form method="post">
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <div class="form-sizing col-md-6">
+            <input type="hidden" asp-for="NewLateMiss.LateMissType" value="Retard">
+            <input type="hidden" asp-for="NewLateMiss.Client.Id" value="@Model.User.Id">
+            <div class="mb-3">
+                <label for="Reason" class="form-label text-light">Motif</label>
+                <input class="form-control" type="text" asp-for="NewLateMiss.Reason">
+                <span asp-validation-for="NewLateMiss.Reason" class="text-danger"></span>
+            </div>
+            @* <div class="mb-3">
+            <label for="Document" class="form-label text-light">Image</label>
+            <input class="form-control" type="image">
+            </div> *@
+            <div class="col-auto text-center mt-3">
+                <a class="btn btn-dark border-2 custom-border mt-3 mb-2 me-2 col-6 col-md-2" asp-controller="AdminPanel" asp-action="AdminPanel">Retour</a>
+                <button type="submit" class="btn btn-dark border-2 custom-border mt-3 mb-2 me-2 col-6 col-md-2">Déclarer</button>
+            </div>
+        </div>
+    </form>
+</div>
