@@ -1,78 +1,77 @@
 ﻿@model WatchMNS.ViewModel.AdminEditUserViewModel
 
-
 <div class="row">
     <div class="p-3 mt-3 custom-border-5 rounded">
-        <form asp-action="EditUser">
+        <form asp-action="AdminEditUser">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <h2 class="text-light text-center">Editer informations de : @Model.Firstname @Model.Lastname</h2>
+            <input type="hidden" asp-for="@Model.Id" value="@Model.Id">
+            <h2 class="text-light text-center">Editer informations de : @Model.UserToEdit.Firstname @Model.UserToEdit.Lastname</h2>
             <br />
             <div class="row">
                 <div class="col-12 col-md-8 col-lg-4 mt-3 mx-auto ">
                     <div class="p-3 custom-border rounded">
                         <div class="form-group">
-                            <label asp-for="Firstname" class="control-label text-light mt-3">Prénom</label>
-                            <input asp-for="Firstname" class="form-control" />
-                            <span asp-validation-for="Firstname" class="text-danger"></span>
+                            <label asp-for="UserToEdit.Firstname" class="control-label text-light mt-3">Prénom</label>
+                            <input asp-for="UserToEdit.Firstname" class="form-control" />
+                            <span asp-validation-for="UserToEdit.Firstname" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="Lastname" class="control-label text-light mt-3">Nom de famille</label>
-                            <input asp-for="Lastname" class="form-control" />
-                            <span asp-validation-for="Lastname" class="text-danger"></span>
+                            <label asp-for="UserToEdit.Lastname" class="control-label text-light mt-3">Nom de famille</label>
+                            <input asp-for="UserToEdit.Lastname" class="form-control" />
+                            <span asp-validation-for="UserToEdit.Lastname" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="Email" class="control-label text-light mt-3">Adresse mail</label>
-                            <input asp-for="Email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <label asp-for="UserToEdit.Email" class="control-label text-light mt-3">Adresse mail</label>
+                            <input asp-for="UserToEdit.Email" class="form-control" />
+                            <span asp-validation-for="UserToEdit.Email" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="Address" class="control-label text-light mt-3">Adresse</label>
-                            <input asp-for="Address" class="form-control" />
-                            <span asp-validation-for="Address" class="text-danger"></span>
+                            <label asp-for="UserToEdit.Address" class="control-label text-light mt-3">Adresse</label>
+                            <input asp-for="UserToEdit.Address" class="form-control" />
+                            <span asp-validation-for="UserToEdit.Address" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="PostCode" class="control-label text-light mt-3">Code Postal</label>
-                            <input asp-for="PostCode" class="form-control" />
-                            <span asp-validation-for="PostCode" class="text-danger"></span>
+                            <label asp-for="UserToEdit.PostCode" class="control-label text-light mt-3">Code Postal</label>
+                            <input asp-for="UserToEdit.PostCode" class="form-control" />
+                            <span asp-validation-for="UserToEdit.PostCode" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="City" class="control-label text-light mt-3">Ville</label>
-                            <input asp-for="City" class="form-control" />
-                            <span asp-validation-for="City" class="text-danger"></span>
+                            <label asp-for="UserToEdit.City" class="control-label text-light mt-3">Ville</label>
+                            <input asp-for="UserToEdit.City" class="form-control" />
+                            <span asp-validation-for="UserToEdit.City" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-8 col-lg-4 mt-3 mx-auto">
                     <div class="p-3 custom-border rounded">
                         <div class="form-group">
-                            <label asp-for="Country" class="control-label text-light mt-3">Pays</label>
-                            <input asp-for="Country" class="form-control" />
-                            <span asp-validation-for="Country" class="text-danger"></span>
+                            <label asp-for="UserToEdit.Country" class="control-label text-light mt-3">Pays</label>
+                            <input asp-for="UserToEdit.Country" class="form-control" />
+                            <span asp-validation-for="UserToEdit.Country" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="BirthDate" class="control-label text-light mt-3">Date de naissance</label>
-                            <input asp-for="BirthDate" class="form-control" />
-                            <span asp-validation-for="BirthDate" class="text-danger"></span>
+                            <label asp-for="UserToEdit.BirthDate" class="control-label text-light mt-3">Date de naissance</label>
+                            <input asp-for="UserToEdit.BirthDate" class="form-control" />
+                            <span asp-validation-for="UserToEdit.BirthDate" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="PhoneNumber" class="control-label text-light mt-3">Numéro de téléphone</label>
-                            <input asp-for="PhoneNumber" class="form-control" />
-                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            <label asp-for="UserToEdit.PhoneNumber" class="control-label text-light mt-3">Numéro de téléphone</label>
+                            <input asp-for="UserToEdit.PhoneNumber" class="form-control" />
+                            <span asp-validation-for="UserToEdit.PhoneNumber" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="NativeCity" class="control-label text-light mt-3">Ville de naissance</label>
-                            <input asp-for="NativeCity" class="form-control" />
-                            <span asp-validation-for="NativeCity" class="text-danger"></span>
+                            <label asp-for="UserToEdit.NativeCity" class="control-label text-light mt-3">Ville de naissance</label>
+                            <input asp-for="UserToEdit.NativeCity" class="form-control" />
+                            <span asp-validation-for="UserToEdit.NativeCity" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="NativeCountry" class="control-label text-light mt-3">Pays de naissance</label>
-                            <input asp-for="NativeCountry" class="form-control" />
-                            <span asp-validation-for="NativeCountry" class="text-danger"></span>
+                            <label asp-for="UserToEdit.NativeCountry" class="control-label text-light mt-3">Pays de naissance</label>
+                            <input asp-for="UserToEdit.NativeCountry" class="form-control" />
+                            <span asp-validation-for="UserToEdit.NativeCountry" class="text-danger"></span>
                         </div>
 
-                        <label asp-for="ProfessionnalStatusId" class="control-label text-light mt-3">Status professionnel</label>
-                        <select class="form-select" asp-for="@Model.ProfessionnalStatusId">
+                        <label asp-for="UserToEdit.ProfessionnalStatusId" class="control-label text-light mt-3">Status professionnel</label>
+                        <select class="form-select" asp-for="@Model.UserToEdit.ProfessionnalStatusId">
                             @foreach (ProfessionnalStatus professionnalStatus in Model.professionnalStatuses)
                             {
                                 <option value='@professionnalStatus.Id'>@professionnalStatus.Label</option>
@@ -82,7 +81,7 @@
                 </div>
             </div>
             <div class="form-group d-flex justify-content-center">
-                <a class="btn btn-dark border-2 custom-border mt-5 mb-2 me-2 col-6 col-md-auto" asp-controller="ManageAccount" asp-action="DisplayUser">Retour</a>
+                <a class="btn btn-dark border-2 custom-border mt-5 mb-2 me-2 col-6 col-md-auto" asp-controller="AdminPanel" asp-action="AdminPanel">Retour</a>
                 <input type="submit" value="Envoyer" class="btn btn-dark border-2 custom-border mt-5 mb-2 col-6 col-md-auto" />
             </div>
         </form>
