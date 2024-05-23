@@ -1,8 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
 @using System.Security.Claims
 @model WatchMNS.ViewModel.AdminDelayDeclarationViewModel
 
@@ -31,6 +27,7 @@
 <div class="custom-border bg-dark bg-opacity-50 text-light p-3">
     <h1 class="text-center">Déclarer @Model.User.Lastname @Model.User.Firstname en retard :</h1>
     <form method="post">
+        <input type="hidden" asp-for="@Model.User.Id" value="@Model.User.Id">
         <div class="text-danger" asp-validation-summary="All"></div>
         <div class="form-sizing col-md-6">
             <input type="hidden" asp-for="NewLateMiss.LateMissType" value="Retard">
