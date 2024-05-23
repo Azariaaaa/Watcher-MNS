@@ -179,7 +179,7 @@ namespace WatchMNS.Controllers
             }
 
             var existingLateMisses = _dbContext.LateMiss
-                .Where(x => (x.Client == client) && (x.LateMissType == "Absence"))
+                .Where(x => (x.Client == client) && (x.LateMissType == "Retard"))
                 .Include(x => x.lateMissStatus)
                 .ToList();
 
