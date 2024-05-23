@@ -44,8 +44,8 @@
                             @Html.ActionLink("Éditer", "AdminEditUser", "Admin", new { id = clientData.Key.Id }, null)
                             @Html.ActionLink("Role", "ManageRole", "Admin", new { id = clientData.Key.Id }, null)
                             @Html.ActionLink("Documents", "Edit", "User", new { id = clientData.Key.Id }, null)
-                            @Html.ActionLink("Absences", "Edit", "User", new { id = clientData.Key.Id }, null)
-                            @Html.ActionLink("Retards", "Edit", "User", new { id = clientData.Key.Id }, null)
+                            @Html.ActionLink("Absences", "AdminAbsenceManager", "Admin", new { id = clientData.Key.Id }, null)
+                            @Html.ActionLink("Retards", "AdminDelayManager", "Admin", new { id = clientData.Key.Id }, null)
                         </div>
                     </div>
                 </div>

@@ -111,9 +111,36 @@ namespace WatchMNS.Controllers
 
         public async Task<IActionResult> AdminAbsenceManager(string id)
         {
-
             Client? client = _dbContext.Client
                 .FirstOrDefault(x => x.Id == id);
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            var existingLateMisses = _dbContext.LateMiss
+                .Where(x => (x.Client == client) && (x.LateMissType == "Absence"))
+                .Include(x => x.lateMissStatus)
+                .ToList();
+
+            var newLateMiss = new LateMiss();
+
+            var viewModel = new AdminAbsenceDeclarationViewModel
+            {
+                User = client,
+                ExistingLateMisses = existingLateMisses,
+                NewLateMiss = newLateMiss
+            };
+
+            return View(viewModel);
+
+        }
+
+        public async Task<IActionResult> AdminDelayManager(string id)
+        {
+            Client? client = _dbContext.Client
+               .FirstOrDefault(x => x.Id == id);
 
             if (client == null)
             {
@@ -134,11 +161,6 @@ namespace WatchMNS.Controllers
             };
 
             return View(viewModel);
-        }
-
-        public async Task<IActionResult> AdminDelayManager(string id)
-        {
-            return View();
         }
 
 

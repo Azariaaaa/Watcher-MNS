@@ -1,8 +1,8 @@
 ﻿@using System.Security.Claims
-@model WatchMNS.ViewModel.AbsenceDeclarationViewModel
+@model WatchMNS.ViewModel.AdminAbsenceDeclarationViewModel
 
 <div class="container-fluid custom-border mb-3 p-3 mt-3 text-light">
-    <h1 class="text-center">Vos absences : </h1>
+    <h1 class="text-center">Absences de @Model.User.Lastname @Model.User.Firstname </h1>
 
     @if (Model.ExistingLateMisses.Count > 0)
     {
