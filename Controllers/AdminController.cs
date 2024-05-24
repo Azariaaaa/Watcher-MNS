@@ -223,6 +223,31 @@ namespace WatchMNS.Controllers
             return RedirectToAction("AdminPanel", "AdminPanel");
         }
 
+        public async Task<IActionResult> CreateProfessionnalStatus()
+        {
+            var existingProfessionnalStatuses = _dbContext.ProfessionnalStatus.ToList();
+            CreateProfessionnalStatusViewModel viewModel = new CreateProfessionnalStatusViewModel();
+
+            viewModel.existingProfessionnalStatuses = existingProfessionnalStatuses;
+            
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProfessionnalStatus(CreateProfessionnalStatusViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            _dbContext.ProfessionnalStatus.Add(viewModel.ProfessionnalStatus);
+
+            return RedirectToAction("AdminPanel", "AdminPanel");
+
+        }
+
 
     }
 }
