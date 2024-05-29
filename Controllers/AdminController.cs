@@ -249,6 +249,7 @@ namespace WatchMNS.Controllers
             }
 
             _dbContext.ProfessionnalStatus.Add(dto.ProfessionnalStatus);
+            _dbContext.SaveChanges();
 
             return RedirectToAction("AdminPanel", "AdminPanel");
 
