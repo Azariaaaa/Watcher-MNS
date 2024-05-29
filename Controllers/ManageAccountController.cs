@@ -61,7 +61,6 @@ namespace WatchMNS.Controllers
                     ModelError? error = ModelState[key].Errors.FirstOrDefault();
                     if (error != null)
                     {
-                        Console.WriteLine("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                         Console.WriteLine(error.ErrorMessage);
                     }
                 }

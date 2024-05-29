@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using WatchMNS.Database;
+using WatchMNS.DTO;
 using WatchMNS.Models;
 using WatchMNS.ViewModel;
 
@@ -235,14 +236,19 @@ namespace WatchMNS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProfessionnalStatus(CreateProfessionnalStatusViewModel viewModel)
+        public async Task<IActionResult> CreateProfessionnalStatus(CreateProfessionnalStatusDTO dto)
         {
             if (!ModelState.IsValid)
             {
+                CreateProfessionnalStatusViewModel viewModel = new CreateProfessionnalStatusViewModel();
+                var existingProfessionnalStatuses = _dbContext.ProfessionnalStatus.ToList();
+                viewModel.existingProfessionnalStatuses = existingProfessionnalStatuses;
+                viewModel.ProfessionnalStatus = dto.ProfessionnalStatus;
+
                 return View(viewModel);
             }
 
-            _dbContext.ProfessionnalStatus.Add(viewModel.ProfessionnalStatus);
+            _dbContext.ProfessionnalStatus.Add(dto.ProfessionnalStatus);
 
             return RedirectToAction("AdminPanel", "AdminPanel");
 
