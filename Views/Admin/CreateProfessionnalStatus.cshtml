@@ -12,12 +12,14 @@
         <thead class="fw-bolder">
             <td colspan="1">Id</td>
             <td colspan="1">Nom status</td>
+            <td colspan="1">Action</td>
         </thead>
         @foreach (ProfessionnalStatus professionnalStatus in Model.existingProfessionnalStatuses)
         {
             <tr>
                 <td colspan="1">@professionnalStatus.Id</td>
-                <td colspan="1">@professionnalStatus.Label</td>
+                <td colspan="1">@professionnalStatus.Label </td>
+                <td colspan="1">@Html.ActionLink("Supprimer", "DeleteProfessionnalStatus", "Admin", new { id = professionnalStatus.Id }, new { @class = "btn btn-light btn-sm" }) </td>
             </tr>
         }
     </table>

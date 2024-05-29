@@ -251,9 +251,25 @@ namespace WatchMNS.Controllers
             _dbContext.ProfessionnalStatus.Add(dto.ProfessionnalStatus);
             _dbContext.SaveChanges();
 
-            return RedirectToAction("AdminPanel", "AdminPanel");
+            return RedirectToAction("CreateProfessionnalStatus", "Admin");
 
         }
+        public async Task<IActionResult> DeleteProfessionnalStatus(int id)
+        {
+            ProfessionnalStatus? professionnalStatusToDelete = _dbContext.ProfessionnalStatus.Where(ps => ps.Id == id).FirstOrDefault();
+
+            if (professionnalStatusToDelete != null)
+            {
+                _dbContext.Remove(professionnalStatusToDelete);
+                _dbContext.SaveChanges();
+
+                return RedirectToAction("CreateProfessionnalStatus", "Admin");
+            }
+
+            return RedirectToAction("CreateProfessionnalStatus", "Admin");
+
+        }
+
 
 
     }
