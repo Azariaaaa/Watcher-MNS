@@ -9,7 +9,6 @@ using WatchMNS.ViewModel;
 
 namespace WatchMNS.Controllers
 {
-    //SignOutAsync()
     public class ClientController : Controller
     {
         private DatabaseContext _dbContext = new DatabaseContext();
@@ -21,7 +20,6 @@ namespace WatchMNS.Controllers
         public IActionResult CreateUser()
         {
             ClientRolesStatusViewModel viewModel = new ClientRolesStatusViewModel();
-            //viewModel.Roles = _dbContext.Role.ToList();
             viewModel.ProfessionnalStatuses = _dbContext.ProfessionnalStatus.ToList();
             return View(viewModel);
         }
@@ -29,7 +27,6 @@ namespace WatchMNS.Controllers
         [HttpPost]
         public IActionResult CreateUser(ClientRolesStatusViewModel viewModel)
         {
-            //viewModel.Roles = _dbContext.Role.ToList();
             viewModel.ProfessionnalStatuses = _dbContext.ProfessionnalStatus.ToList();
 
             if (!ModelState.IsValid)
@@ -80,13 +77,11 @@ namespace WatchMNS.Controllers
             viewModel.Id = id;
             viewModel.Lastname = client.Lastname;
             viewModel.Firstname = client.Firstname;
-            //viewModel.Password = client.Password;
             viewModel.Email = client.Email;
             viewModel.Address = client.Address;
             viewModel.City = client.City;
             viewModel.PostCode = client.PostCode;
             viewModel.Country = client.Country;
-            //viewModel.BirthDate = client.BirthDate;
             viewModel.NativeCity = client.NativeCity;
             viewModel.NativeCountry = client.NativeCountry;
 

@@ -1,0 +1,30 @@
+﻿@model WatchMNS.ViewModel.UserDocumentManagerViewModel
+<div class="text-light">
+    <h1>Bonjour @Model.User.Firstname</h1>
+    <h3>Vous avez envoyé X documents</h3>
+</div>
+
+<form asp-action="Upload" asp-controller="Upload" class="text-light" method="post" enctype="multipart/form-data">
+    <div class="row mt-2">
+        <div class="col-12">
+            <label class="col-form-label">Enter File Name For Save</label>
+            <input asp-for="NewDocument.Label" class="form-control" />
+            <span asp-validation-for="NewDocument.Label" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12">
+            <label class="col-form-label">Select File</label>
+            <input asp-for="File" class="form-control" />
+            <span asp-validation-for="File" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="row mt-2">
+        <div class="col-12">
+            <button type="submit" class="btn btn-dark custom-border mt-2">Upload File</button>
+        </div>
+    </div>
+</form>
