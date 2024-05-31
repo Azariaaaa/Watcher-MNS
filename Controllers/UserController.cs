@@ -45,6 +45,7 @@ namespace WatchMNS.Controllers
             Client? CurrentUser = _dbContext.Client.Where(u => u.Id == CurrentUserId).FirstOrDefault();
             Document document = new Document();
 
+            document.Label = dto.DocumentName;
             document.Path = "C:\\Users\\krust\\OneDrive\\Bureau\\WatchMNS - Original\\WatchMNS\\Documents\\" + dto.DocumentName;
             document.UploadDate = DateTime.Now;
             document.LastStatusDate = DateTime.Now;
@@ -66,7 +67,7 @@ namespace WatchMNS.Controllers
                 Directory.CreateDirectory(path);
 
             FileInfo fileInfo = new FileInfo(dto.DocumentName);
-            string fileName = dto.DocumentName + ".png";
+            string fileName = dto.DocumentName + ".png"; // ICI PAS OUF A REFAIRE
             string fileNameWithPath = Path.Combine(path, fileName);
 
             using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
@@ -74,6 +75,7 @@ namespace WatchMNS.Controllers
                 dto.File.CopyTo(stream);
             }
             _dbContext.Document.Add(document);
+            _dbContext.SaveChanges();
 
             return RedirectToAction("DocumentManager");
         }
