@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Documents\" />
     <Folder Include="Views\Role\" />
   </ItemGroup>
 

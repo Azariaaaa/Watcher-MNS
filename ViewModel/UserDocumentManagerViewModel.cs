@@ -6,7 +6,7 @@ namespace WatchMNS.ViewModel
     {
         public Client User { get; set; }
         public List<Document> Documents { get; set; }
-        public Document NewDocument { get; set; }
+        public string DocumentName { get; set; }
         public IFormFile File { get; set; }
     }
 }

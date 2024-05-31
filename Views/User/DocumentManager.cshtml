@@ -4,18 +4,18 @@
     <h3>Vous avez envoyé X documents</h3>
 </div>
 
-<form asp-action="Upload" asp-controller="Upload" class="text-light" method="post" enctype="multipart/form-data">
+<form asp-action="DocumentManager" asp-controller="User" class="text-light" method="post" enctype="multipart/form-data">
     <div class="row mt-2">
         <div class="col-12">
-            <label class="col-form-label">Enter File Name For Save</label>
-            <input asp-for="NewDocument.Label" class="form-control" />
-            <span asp-validation-for="NewDocument.Label" class="text-danger"></span>
+            <label class="col-form-label">Nom du fichier</label>
+            <input asp-for="DocumentName" class="form-control" />
+            <span asp-validation-for="DocumentName" class="text-danger"></span>
         </div>
     </div>
 
     <div class="row mt-2">
         <div class="col-12">
-            <label class="col-form-label">Select File</label>
+            <label class="col-form-label">Séléctionner un ficher</label>
             <input asp-for="File" class="form-control" />
             <span asp-validation-for="File" class="text-danger"></span>
         </div>
