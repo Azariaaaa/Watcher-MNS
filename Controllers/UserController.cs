@@ -23,21 +23,23 @@ namespace WatchMNS.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        public ActionResult DocumentManager()
+        public async Task<ActionResult> DocumentManager()
         {
             string? CurrentUserId = User
                 .FindFirstValue(ClaimTypes.NameIdentifier);
 
             Client? CurrentUser = _dbContext.Client.Where(u  => u.Id == CurrentUserId).FirstOrDefault();
+            int UserDocumentsCount = _dbContext.Document.Where(d => d.Client == CurrentUser).Count();
 
             UserDocumentManagerViewModel viewModel = new UserDocumentManagerViewModel();
             viewModel.User = CurrentUser;
+            viewModel.UserDocumentCount = UserDocumentsCount;
 
             return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult DocumentManager(UserDocumentManagerDTO dto)
+        public async Task<ActionResult> DocumentManager(UserDocumentManagerDTO dto)
         {
             string? CurrentUserId = User
                .FindFirstValue(ClaimTypes.NameIdentifier);
@@ -56,8 +58,10 @@ namespace WatchMNS.Controllers
             if(!ModelState.IsValid)
             {
                 UserDocumentManagerViewModel viewModel = new UserDocumentManagerViewModel();
+                int UserDocumentsCount = _dbContext.Document.Where(d => d.Client == CurrentUser).Count();
                 viewModel.User = CurrentUser;
                 viewModel.DocumentName = dto.DocumentName;
+                viewModel.UserDocumentCount = UserDocumentsCount;
                 return View(viewModel);
             }
 
@@ -69,6 +73,8 @@ namespace WatchMNS.Controllers
             FileInfo fileInfo = new FileInfo(dto.DocumentName);
             string fileName = dto.DocumentName + ".png"; // ICI PAS OUF A REFAIRE
             string fileNameWithPath = Path.Combine(path, fileName);
+
+            
 
             using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
             {

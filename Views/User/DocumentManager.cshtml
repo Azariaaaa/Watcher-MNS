@@ -1,7 +1,7 @@
 ﻿@model WatchMNS.ViewModel.UserDocumentManagerViewModel
 <div class="text-light">
     <h1>Bonjour @Model.User.Firstname</h1>
-    <h3>Vous avez envoyé X documents</h3>
+    <h3>Vous avez envoyé @Model.UserDocumentCount documents</h3>
 </div>
 
 <form asp-action="DocumentManager" asp-controller="User" class="text-light" method="post" enctype="multipart/form-data">
