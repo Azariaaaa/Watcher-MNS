@@ -62,7 +62,7 @@ namespace WatchMNS.Controllers
             Document document = new Document();
 
             document.Label = dto.DocumentName;
-            document.Path = "C:\\Users\\krust\\OneDrive\\Bureau\\WatchMNS - Original\\WatchMNS\\Documents\\" + dto.DocumentName;
+            document.Path = "/Files/" + dto.DocumentName + ".png";
             document.UploadDate = DateTime.Now;
             document.LastStatusDate = DateTime.Now;
             document.Client = CurrentUser;
