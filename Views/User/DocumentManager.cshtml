@@ -28,3 +28,13 @@
         </div>
     </div>
 </form>
+
+<div class="text-light custom-border-5 p-4">
+    @foreach (Document document in Model.Documents)
+    {
+        <div class="custom-border p-4">
+            <h2>Type de document : @document.DocumentType.Label</h2>
+            <img src="@document.Path" />
+        </div>
+    }
+</div>

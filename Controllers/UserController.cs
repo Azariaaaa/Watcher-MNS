@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 using WatchMNS.Database;
@@ -28,12 +29,22 @@ namespace WatchMNS.Controllers
             string? CurrentUserId = User
                 .FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Client? CurrentUser = _dbContext.Client.Where(u  => u.Id == CurrentUserId).FirstOrDefault();
-            int UserDocumentsCount = _dbContext.Document.Where(d => d.Client == CurrentUser).Count();
+            Client? CurrentUser = _dbContext.Client
+                .Where(u  => u.Id == CurrentUserId)
+                .FirstOrDefault();
+
+            List<Document> UserDocumentList = _dbContext.Document
+                .Where(d => d.Client == CurrentUser)
+                .Include(d => d.DocumentType)
+                .ToList();
+
+            int UserDocumentsCount = UserDocumentList
+                .Count();
 
             UserDocumentManagerViewModel viewModel = new UserDocumentManagerViewModel();
             viewModel.User = CurrentUser;
             viewModel.UserDocumentCount = UserDocumentsCount;
+            viewModel.Documents = UserDocumentList;
 
             return View(viewModel);
         }
@@ -44,7 +55,10 @@ namespace WatchMNS.Controllers
             string? CurrentUserId = User
                .FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Client? CurrentUser = _dbContext.Client.Where(u => u.Id == CurrentUserId).FirstOrDefault();
+            Client? CurrentUser = _dbContext.Client
+                .Where(u => u.Id == CurrentUserId)
+                .FirstOrDefault();
+
             Document document = new Document();
 
             document.Label = dto.DocumentName;
@@ -57,10 +71,17 @@ namespace WatchMNS.Controllers
 
             if(!ModelState.IsValid)
             {
+                List<Document> UserDocumentList = _dbContext.Document
+                    .Where(d => d.Client == CurrentUser)
+                    .Include(d => d.DocumentType)
+                    .ToList();
+
+                int UserDocumentsCount = UserDocumentList.Count();
+
                 UserDocumentManagerViewModel viewModel = new UserDocumentManagerViewModel();
-                int UserDocumentsCount = _dbContext.Document.Where(d => d.Client == CurrentUser).Count();
                 viewModel.User = CurrentUser;
                 viewModel.DocumentName = dto.DocumentName;
+                viewModel.Documents = UserDocumentList;
                 viewModel.UserDocumentCount = UserDocumentsCount;
                 return View(viewModel);
             }
