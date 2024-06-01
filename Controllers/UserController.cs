@@ -26,25 +26,29 @@ namespace WatchMNS.Controllers
         }
         public async Task<ActionResult> DocumentManager()
         {
-            string? CurrentUserId = User
+            string? currentUserId = User
                 .FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Client? CurrentUser = _dbContext.Client
-                .Where(u  => u.Id == CurrentUserId)
+            Client? currentUser = _dbContext.Client
+                .Where(u  => u.Id == currentUserId)
                 .FirstOrDefault();
 
-            List<Document> UserDocumentList = _dbContext.Document
-                .Where(d => d.Client == CurrentUser)
+            List<Document> userDocumentList = _dbContext.Document
+                .Where(d => d.Client == currentUser)
                 .Include(d => d.DocumentType)
                 .ToList();
 
-            int UserDocumentsCount = UserDocumentList
+            List<DocumentType> documentTypeList = _dbContext.DocumentType
+                .ToList();
+
+            int UserDocumentsCount = userDocumentList
                 .Count();
 
             UserDocumentManagerViewModel viewModel = new UserDocumentManagerViewModel();
-            viewModel.User = CurrentUser;
+            viewModel.User = currentUser;
             viewModel.UserDocumentCount = UserDocumentsCount;
-            viewModel.Documents = UserDocumentList;
+            viewModel.Documents = userDocumentList;
+            viewModel.DocumentTypes = documentTypeList;
 
             return View(viewModel);
         }
@@ -52,11 +56,11 @@ namespace WatchMNS.Controllers
         [HttpPost]
         public async Task<ActionResult> DocumentManager(UserDocumentManagerDTO dto)
         {
-            string? CurrentUserId = User
+            string? currentUserId = User
                .FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Client? CurrentUser = _dbContext.Client
-                .Where(u => u.Id == CurrentUserId)
+            Client? currentUser = _dbContext.Client
+                .Where(u => u.Id == currentUserId)
                 .FirstOrDefault();
 
             Document document = new Document();
@@ -65,24 +69,28 @@ namespace WatchMNS.Controllers
             document.Path = "/Files/" + dto.DocumentName + ".png";
             document.UploadDate = DateTime.Now;
             document.LastStatusDate = DateTime.Now;
-            document.Client = CurrentUser;
+            document.Client = currentUser;
             document.DocumentStatus = _dbContext.DocumentStatus.Where(ds => ds.Label == "En attente de validation").FirstOrDefault();
             document.DocumentType = _dbContext.DocumentType.Where(dt => dt.Label == "Carte d'identité").FirstOrDefault();
 
             if(!ModelState.IsValid)
             {
-                List<Document> UserDocumentList = _dbContext.Document
-                    .Where(d => d.Client == CurrentUser)
+                List<Document> userDocumentList = _dbContext.Document
+                    .Where(d => d.Client == currentUser)
                     .Include(d => d.DocumentType)
                     .ToList();
 
-                int UserDocumentsCount = UserDocumentList.Count();
+                List<DocumentType> documentTypeList = _dbContext.DocumentType
+                    .ToList();
+
+                int userDocumentsCount = userDocumentList.Count();
 
                 UserDocumentManagerViewModel viewModel = new UserDocumentManagerViewModel();
-                viewModel.User = CurrentUser;
+                viewModel.User = currentUser;
                 viewModel.DocumentName = dto.DocumentName;
-                viewModel.Documents = UserDocumentList;
-                viewModel.UserDocumentCount = UserDocumentsCount;
+                viewModel.Documents = userDocumentList;
+                viewModel.UserDocumentCount = userDocumentsCount;
+                viewModel.DocumentTypes = documentTypeList;
                 return View(viewModel);
             }
 
