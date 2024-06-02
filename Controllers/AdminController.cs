@@ -270,6 +270,27 @@ namespace WatchMNS.Controllers
 
         }
 
+        public async Task<IActionResult> AdminDocumentManager(string id)
+        {
+            Client? user = _dbContext.Client
+                .FirstOrDefault(c => c.Id == id);
+
+            List<Document> documentList = _dbContext.Document
+                .Where(d => d.Client == user)
+                .Include(d => d.DocumentStatus)
+                .Include(d => d.DocumentType)
+                .ToList();
+
+            AdminDocumentManagerViewModel viewModel = new AdminDocumentManagerViewModel
+            {
+                User = user,
+                Documents = documentList
+            };
+
+            return View(viewModel);
+        }
+
+        
 
 
     }

@@ -1,0 +1,15 @@
+﻿@model WatchMNS.ViewModel.AdminDocumentManagerViewModel
+
+
+<h1 class="text-light">Documents de @Model.User.Lastname @Model.User.Firstname</h1>
+
+<div class="text-light custom-border-5 p-4 mt-4">
+    @foreach (Document document in Model.Documents)
+    {
+        <div class="custom-border p-4 mb-4">
+            <h2>Type de document : @document.DocumentType.Label</h2>
+            <img class="col-sm-4 col-12" src="@Url.Content("~" + @document.Path)" />
+        </div>
+    }
+</div>
+

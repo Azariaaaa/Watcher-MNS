@@ -48,7 +48,7 @@
                                 <div class="mt-3">
                                     @Html.ActionLink("Éditer", "AdminEditUser", "Admin", new { id = clientData.Key.Id }, new { @class = "btn btn-light btn-sm mb-1" })
                                     @Html.ActionLink("Rôle", "ManageRole", "Admin", new { id = clientData.Key.Id }, new { @class = "btn btn-light btn-sm mb-1" })
-                                    @Html.ActionLink("Documents", "Edit", "User", new { id = clientData.Key.Id }, new { @class = "btn btn-light btn-sm mb-1" })
+                                    @Html.ActionLink("Documents", "AdminDocumentManager", "Admin", new { id = clientData.Key.Id }, new { @class = "btn btn-light btn-sm mb-1" })
                                     @Html.ActionLink("Absences", "AdminAbsenceManager", "Admin", new { id = clientData.Key.Id }, new { @class = "btn btn-light btn-sm mb-1" })
                                     @Html.ActionLink("Retards", "AdminDelayManager", "Admin", new { id = clientData.Key.Id }, new { @class = "btn btn-light btn-sm mb-1" })
                                 </div>

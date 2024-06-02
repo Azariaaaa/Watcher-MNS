@@ -63,6 +63,10 @@ namespace WatchMNS.Controllers
                 .Where(u => u.Id == currentUserId)
                 .FirstOrDefault();
 
+            DocumentType? documentType = _dbContext.DocumentType
+                .Where(dt => dt.Label == dto.DocumentType)
+                .FirstOrDefault();
+
             Document document = new Document();
 
             document.Label = dto.DocumentName;
@@ -71,7 +75,7 @@ namespace WatchMNS.Controllers
             document.LastStatusDate = DateTime.Now;
             document.Client = currentUser;
             document.DocumentStatus = _dbContext.DocumentStatus.Where(ds => ds.Label == "En attente de validation").FirstOrDefault();
-            document.DocumentType = _dbContext.DocumentType.Where(dt => dt.Label == "Carte d'identité").FirstOrDefault();
+            document.DocumentType = documentType;
 
             if(!ModelState.IsValid)
             {
@@ -91,6 +95,8 @@ namespace WatchMNS.Controllers
                 viewModel.Documents = userDocumentList;
                 viewModel.UserDocumentCount = userDocumentsCount;
                 viewModel.DocumentTypes = documentTypeList;
+                viewModel.DocumentType = documentType;
+
                 return View(viewModel);
             }
 

@@ -15,6 +15,19 @@
 
     <div class="row mt-2">
         <div class="col-12">
+            <label for="DocumentType" class="col-form-label">Type de fichier</label>
+            <select name="DocumentType" id="DocumentType" class="form-select">
+                @foreach (DocumentType type in Model.DocumentTypes)
+                {
+                    <option value='@type.Label'>@type.Label</option>
+                }
+            </select>
+            <span asp-validation-for="DocumentType" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12">
             <label class="col-form-label">Séléctionner un ficher</label>
             <input asp-for="File" class="form-control" />
             <span asp-validation-for="File" class="text-danger"></span>
@@ -32,9 +45,9 @@
 <div class="text-light custom-border-5 p-4 mt-4">
     @foreach (Document document in Model.Documents)
     {
-        <div class="custom-border p-4">
+        <div class="custom-border p-4 mb-4">
             <h2>Type de document : @document.DocumentType.Label</h2>
-            <img src="@Url.Content("~" + @document.Path)" />
+            <img class="col-sm-4 col-12" src="@Url.Content("~" + @document.Path)" />
         </div>
     }
 </div>
