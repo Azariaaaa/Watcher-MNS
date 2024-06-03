@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using System.Net;
 using System.Reflection.Metadata;
 using WatchMNS.Database;
@@ -18,7 +19,10 @@ namespace WatchMNS.Controllers
             Models.Document? document = new Models.Document();
             document = _dbContext.Document.Find(id);
 
-            return File(document.Path, document.Label);
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", document.Path.TrimStart('/'));
+            string mimeType = MimeMapping.GetMimeMapping(filePath);
+
+            return PhysicalFile(filePath, mimeType, document.Label);
         }
     }
 }
