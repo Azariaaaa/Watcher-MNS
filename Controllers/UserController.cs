@@ -70,7 +70,7 @@ namespace WatchMNS.Controllers
             Document document = new Document();
 
             document.Label = dto.DocumentName;
-            document.Path = "/Files/" + dto.DocumentName + ".png";
+            document.Path = "/Files/" + dto.DocumentName + Path.GetExtension(dto.File.FileName);
             document.UploadDate = DateTime.Now;
             document.LastStatusDate = DateTime.Now;
             document.Client = currentUser;
@@ -105,8 +105,8 @@ namespace WatchMNS.Controllers
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
-            FileInfo fileInfo = new FileInfo(dto.DocumentName);
-            string fileName = dto.DocumentName + ".png"; // ICI PAS OUF A REFAIRE
+            string extension = Path.GetExtension(dto.File.FileName);
+            string fileName = dto.DocumentName + extension;
             string fileNameWithPath = Path.Combine(path, fileName);
 
             
