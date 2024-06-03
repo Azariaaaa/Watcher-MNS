@@ -4,12 +4,34 @@
 <h1 class="text-light">Documents de @Model.User.Lastname @Model.User.Firstname</h1>
 
 <div class="text-light custom-border-5 p-4 mt-4">
-    @foreach (Document document in Model.Documents)
+    @foreach (var documentWithExtension in Model.DocumentsWithExtensions)
     {
-        <div class="custom-border p-4 mb-4">
-            <h2>Type de document : @document.DocumentType.Label</h2>
-            <img class="col-sm-4 col-12" src="@Url.Content("~" + @document.Path)" />
-        </div>
+        if(documentWithExtension.Value != ".pdf")
+        {
+            <div class="custom-border p-4 mb-4">
+                <h2>Type de document : @documentWithExtension.Key.DocumentType.Label</h2>
+                <img class="col-sm-4 col-12" src="@Url.Content("~" + documentWithExtension.Key.Path)" />
+            </div>
+        }
+        else
+        {
+            <div class="custom-border p-4 mb-4">
+                <h2>PDF</h2>
+                <h2>Type de document : @documentWithExtension.Key.DocumentType.Label</h2>
+                <tr>
+                    <div class="mt-4 d-flex">
+                        <td>
+                            <div class="fs-5 me-2">
+                                @Html.DisplayFor(modelItem => documentWithExtension.Key.Label)
+                            </div>
+                        </td>
+                        <td>
+                            @Html.ActionLink("Download", "Download", new { id = documentWithExtension.Key.Id }, new { @class = "btn btn-primary" })
+                        </td>
+                    </div>
+                </tr>
+            </div>
+        }
     }
 </div>
 

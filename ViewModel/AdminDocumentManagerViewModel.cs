@@ -6,5 +6,6 @@ namespace WatchMNS.ViewModel
     {
         public Client User { get; set; }
         public List<Document> Documents { get; set; }
+        public Dictionary<Document,string> DocumentsWithExtensions { get; set; }
     }
 }

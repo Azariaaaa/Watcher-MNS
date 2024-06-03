@@ -56,6 +56,7 @@ namespace WatchMNS.Controllers
         [HttpPost]
         public async Task<ActionResult> DocumentManager(UserDocumentManagerDTO dto)
         {
+            //Requests
             string? currentUserId = User
                .FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -67,8 +68,8 @@ namespace WatchMNS.Controllers
                 .Where(dt => dt.Label == dto.DocumentType)
                 .FirstOrDefault();
 
+            //Document building for database
             Document document = new Document();
-
             document.Label = dto.DocumentName;
             document.Path = "/Files/" + dto.DocumentName + Path.GetExtension(dto.File.FileName);
             document.UploadDate = DateTime.Now;
@@ -77,6 +78,7 @@ namespace WatchMNS.Controllers
             document.DocumentStatus = _dbContext.DocumentStatus.Where(ds => ds.Label == "En attente de validation").FirstOrDefault();
             document.DocumentType = documentType;
 
+            //Validation
             if(!ModelState.IsValid)
             {
                 List<Document> userDocumentList = _dbContext.Document
@@ -100,6 +102,7 @@ namespace WatchMNS.Controllers
                 return View(viewModel);
             }
 
+            //Register document in directory
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files");
 
             if (!Directory.Exists(path))
@@ -109,12 +112,12 @@ namespace WatchMNS.Controllers
             string fileName = dto.DocumentName + extension;
             string fileNameWithPath = Path.Combine(path, fileName);
 
-            
-
             using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
             {
                 dto.File.CopyTo(stream);
             }
+
+            //Add and save new document in database
             _dbContext.Document.Add(document);
             _dbContext.SaveChanges();
 

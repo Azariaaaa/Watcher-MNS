@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -281,10 +282,19 @@ namespace WatchMNS.Controllers
                 .Include(d => d.DocumentType)
                 .ToList();
 
+            Dictionary<Document, string> DocumentsWithExtensions = new Dictionary<Document, string>();
+
+            foreach (Document document in documentList)
+            {
+                string extension = Path.GetExtension(document.Path);
+                DocumentsWithExtensions.Add(document, extension);
+            }
+
             AdminDocumentManagerViewModel viewModel = new AdminDocumentManagerViewModel
             {
                 User = user,
-                Documents = documentList
+                Documents = documentList,
+                DocumentsWithExtensions = DocumentsWithExtensions
             };
 
             return View(viewModel);
