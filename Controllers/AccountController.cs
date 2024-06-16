@@ -66,7 +66,7 @@ namespace WatchMNS.Controllers
         public IActionResult Logout()
         {
             _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home"); //Action , Controller
+            return RedirectToAction("Login", "Account"); //Action , Controller
         }
 
         //REGISTER
