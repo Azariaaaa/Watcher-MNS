@@ -1,4 +1,23 @@
-﻿<h1 class="text-danger">Accès Interdit</h1>
-<h1 class="text-danger">Vous n'avez pas les droits d'accéder à cette URL</h1>
-<br />
-<a class="navbar-brand text-light fw-bolder" asp-area="" asp-controller="Account" asp-action="Login">Connexion</a>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<Client> SignInManager
+@inject UserManager<Client> UserManager
+
+{
+    <div class="custom-border p-4 mt-4">
+        <h1 class="text-danger">Accès Interdit</h1>
+        <h1 class="text-danger">Vous n'avez pas les droits d'accéder à cette URL</h1>
+        <br />
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a class="btn btn-dark border-2 custom-border mb-3" asp-controller="UserPanel" asp-action="Panel">Retour</a>
+        }
+        else
+        {
+            <a class="btn btn-dark border-2 custom-border mb-3" asp-controller="Account" asp-action="Login">Connexion</a>
+        }
+    </div>
+}
+
+
+

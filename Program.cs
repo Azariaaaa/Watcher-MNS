@@ -4,7 +4,7 @@ using WatchMNS.Database;
 using WatchMNS.Models;
 namespace WatchMNS
 {
-    public class Program  // // // // --- Not A Copie --- // // // // 
+    public class Program
     {
         public static async Task Main(string[] args)
         {
