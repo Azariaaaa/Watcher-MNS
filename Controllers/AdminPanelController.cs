@@ -22,10 +22,10 @@ namespace WatchMNS.Controllers
         {
             AdminPanelViewModel viewModel = new AdminPanelViewModel();
 
-            var clients = _dbContext.Client.ToList();
-            var lateMisses = _dbContext.LateMiss.ToList();
+            List<Client>? clients = _dbContext.Client.ToList();
+            List<LateMiss>? lateMisses = _dbContext.LateMiss.ToList();
 
-            foreach (var client in clients)
+            foreach (Client client in clients)
             {
                 int absenceCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == client.Id && lm.LateMissType == "Absence");
                 int delayCount = _dbContext.LateMiss.Count(lm => lm.Client.Id == client.Id && lm.LateMissType == "Retard");

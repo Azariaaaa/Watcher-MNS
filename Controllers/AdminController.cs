@@ -80,8 +80,6 @@ namespace WatchMNS.Controllers
                 professionnalStatuses = professionnalStatusesList
             };
 
-            Console.WriteLine("Fin premier Action");
-
             return View(viewModel);
         }
 
