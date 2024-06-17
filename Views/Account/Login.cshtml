@@ -1,25 +1,35 @@
 ﻿@model WatchMNS.ViewModel.LoginViewModel
 
-
-<h4 class="text-center text-light">Connexion</h4>
-<div class="row custom-border p-3 mx-auto fit-form">
-    <form method="post">
-        <div class="text-danger" asp-validation-summary="All"></div>
-        <div class="form-sizing col-md-6">
-            <div class="mb-3">
-                <label for="Email" class="form-label text-light">Mail</label>
-                <input class="form-control" type="email" asp-for="@Model.Email">
-                <span asp-validation-for="@Model.Email" class="text-danger"></span>
+<div class="d-flex justify-content-center align-items-center mt-4">
+    <div class="card-dark custom-border" style="width: 400px">
+        <div class="card-body">
+            <div class="d-flex justify-content-center mb-4">
+                <img src="~/images/Watcher-logo.png" class="img-fluid" style="width: 50%;" alt="Watcher logo">
             </div>
-            <div class="mb-3">
-                <label for="Password" class="form-label text-light">Mot de passe</label>
-                <input class="form-control" type="password" asp-for="@Model.Password">
-                <span asp-validation-for="@Model.Password" class="text-danger"></span>
-            </div>
-            <a class="navbar-brand text-light text-decoration-underline" asp-area="" asp-controller="Account" asp-action="Register">S'inscrire</a>
-            <div class="col-auto text-center mt-3">
-                <button type="submit" class="btn btn-warning mb-3 col-3">Submit</button>
-            </div>
+            <h4 class="text-center text-light mb-4">Connexion</h4>
+            <form method="post">
+                <div class="text-danger text-center" asp-validation-summary="All"></div>
+                <div class="mb-3">
+                    <label for="Email" class="form-label text-light">Mail</label>
+                    <input class="form-control" type="email" asp-for="@Model.Email" placeholder="Votre email">
+                    <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="Password" class="form-label text-light">Mot de passe</label>
+                    <input class="form-control" type="password" asp-for="@Model.Password" placeholder="Votre mot de passe">
+                    <span asp-validation-for="@Model.Password" class="text-danger"></span>
+                </div>
+                <div class="text-center mb-3">
+                    <a class="text-light text-decoration-underline" asp-area="" asp-controller="Account" asp-action="ForgotPassword">Mot de passe oublié ?</a>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-warning mb-3">Se connecter</button>
+                </div>
+                <div class="text-center mt-3">
+                    <span class="text-light">Pas encore inscrit ? </span>
+                    <a class="text-light text-decoration-underline" asp-area="" asp-controller="Account" asp-action="Register">S'inscrire</a>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
