@@ -2,9 +2,14 @@
 
 <h1 class="text-light text-center mb-4">Panneau d'administration</h1>
 
+
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-2 col-md-3 col-12 custom-border-5 p-4 sidebar">
+            <div class="d-flex justify-content-center mb-5 custom-border">
+                <img src="~/images/Watcher-logo.png" class="img-fluid" style="width: 100%;" alt="Watcher logo">
+            </div>
             <nav class="nav flex-column text-center">
                 <a class="btn btn-dark border-2 custom-border mb-3" asp-controller="ManageAccount" asp-action="EditUser">Gestion des rôles</a>
                 <a class="btn btn-dark border-2 custom-border mb-3" asp-controller="UserPanel" asp-action="AbsenceManager">Gestion d'absence / retard</a>
