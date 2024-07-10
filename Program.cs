@@ -31,6 +31,34 @@ namespace WatchMNS
             builder.Services.AddScoped(typeof(IRepository<>), typeof(AbstractRepository<>));
             builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 
+            // Repositories
+            builder.Services.AddScoped<ClientRepository>();
+            builder.Services.AddScoped<DocumentRepository>();
+            builder.Services.AddScoped<DocumentStatusRepository>();
+            builder.Services.AddScoped<DocumentTypeRepository>();
+            builder.Services.AddScoped<LateMissDocRepository>();
+            builder.Services.AddScoped<LateMissRepository>();
+            builder.Services.AddScoped<LateMissStatusRepository>();
+            builder.Services.AddScoped<NotificationRepository>();
+            builder.Services.AddScoped<NotificationTypeRepository>();
+            builder.Services.AddScoped<ProfessionnalStatusRepository>();
+            builder.Services.AddScoped<TrainingRepository>();
+            builder.Services.AddScoped<TrainingTypeRepository>();
+
+            // Services
+            builder.Services.AddScoped<IClientService, ClientService>();
+            builder.Services.AddScoped<IDocumentService, DocumentService>();
+            builder.Services.AddScoped<IDocumentStatusService, DocumentStatusService>();
+            builder.Services.AddScoped<IDocumentTypeService, DocumentTypeService>();
+            builder.Services.AddScoped<ILateMissDocService, LateMissDocService>();
+            builder.Services.AddScoped<ILateMissService, LateMissService>();
+            builder.Services.AddScoped<ILateMissStatusService, LateMissStatusService>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddScoped<INotificationTypeService, NotificationTypeService>();
+            builder.Services.AddScoped<IProfessionnalStatusService, ProfessionnalStatusService>();
+            builder.Services.AddScoped<ITrainingService, TrainingService>();
+            builder.Services.AddScoped<ITrainingTypeService, TrainingTypeService>();
+
             var roleManager = builder.Services.BuildServiceProvider().GetRequiredService<RoleManager<IdentityRole>>();
 
             var roles = new[] { "Admin", "Moderator", "User", "Guest" };
