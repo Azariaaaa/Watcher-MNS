@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WatchMNS.Database;
 using WatchMNS.Models;
+using WatchMNS.Repository.Interfaces;
+using WatchMNS.Repository;
+using WatchMNS.Services.Interfaces;
+using WatchMNS.Services;
 namespace WatchMNS
 {
     public class Program
@@ -23,6 +27,9 @@ namespace WatchMNS
                                 options.User.RequireUniqueEmail = true;
                             })
                             .AddEntityFrameworkStores<DatabaseContext>();
+
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(AbstractRepository<>));
+            builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 
             var roleManager = builder.Services.BuildServiceProvider().GetRequiredService<RoleManager<IdentityRole>>();
 
