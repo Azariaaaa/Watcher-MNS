@@ -1,6 +1,8 @@
-﻿namespace WatchMNS.Services.Interfaces
+﻿using WatchMNS.Models;
+
+namespace WatchMNS.Services.Interfaces
 {
-    public interface ILateMissDocService
+    public interface ILateMissDocService : IService<LateMissDoc>
     {
     }
 }

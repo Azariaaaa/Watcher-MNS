@@ -1,6 +1,8 @@
-﻿namespace WatchMNS.Services.Interfaces
+﻿using WatchMNS.Models;
+
+namespace WatchMNS.Services.Interfaces
 {
-    public class IDocumentStatusService
+    public interface IDocumentStatusService : IService<DocumentStatus>
     {
     }
 }

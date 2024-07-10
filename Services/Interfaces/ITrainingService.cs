@@ -1,6 +1,8 @@
-﻿namespace WatchMNS.Services.Interfaces
+﻿using WatchMNS.Models;
+
+namespace WatchMNS.Services.Interfaces
 {
-    public interface ITrainingService
+    public interface ITrainingService : IService<Training>
     {
     }
 }

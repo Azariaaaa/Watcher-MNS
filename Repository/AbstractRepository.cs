@@ -4,12 +4,12 @@ using WatchMNS.Repository.Interfaces;
 
 namespace WatchMNS.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public abstract class AbstractRepository<T> : IRepository<T> where T : class
     {
         private readonly DatabaseContext _dbContext;
         private readonly DbSet<T> _dbSet;
 
-        public Repository(DatabaseContext dbContext)
+        public AbstractRepository(DatabaseContext dbContext)
         {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<T>();

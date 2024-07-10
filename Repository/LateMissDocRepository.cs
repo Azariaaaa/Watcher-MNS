@@ -1,6 +1,12 @@
-﻿namespace WatchMNS.Repository
+﻿using WatchMNS.Database;
+using WatchMNS.Models;
+
+namespace WatchMNS.Repository
 {
-    public class LateMissDocRepository
+    public class LateMissDocRepository : AbstractRepository<LateMissDoc>
     {
+        public LateMissDocRepository (DatabaseContext dbContext) : base(dbContext)
+        {
+        }
     }
 }

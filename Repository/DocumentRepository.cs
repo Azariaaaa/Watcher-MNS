@@ -1,6 +1,12 @@
-﻿namespace WatchMNS.Repository
+﻿using WatchMNS.Database;
+using WatchMNS.Models;
+
+namespace WatchMNS.Repository
 {
-    public class AdminRepository
+    public class DocumentRepository : AbstractRepository<Document>
     {
+        public DocumentRepository(DatabaseContext dbContext) : base(dbContext)
+        {
+        }
     }
 }
