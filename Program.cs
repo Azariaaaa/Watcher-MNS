@@ -28,10 +28,12 @@ namespace WatchMNS
                             })
                             .AddEntityFrameworkStores<DatabaseContext>();
 
-            builder.Services.AddScoped(typeof(IRepository<>), typeof(AbstractRepository<>));
-            builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+            
 
             // Repositories
+
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(AbstractRepository<>));
+
             builder.Services.AddScoped<ClientRepository>();
             builder.Services.AddScoped<DocumentRepository>();
             builder.Services.AddScoped<DocumentStatusRepository>();
@@ -46,6 +48,9 @@ namespace WatchMNS
             builder.Services.AddScoped<TrainingTypeRepository>();
 
             // Services
+
+            builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+
             builder.Services.AddScoped<IClientService, ClientService>();
             builder.Services.AddScoped<IDocumentService, DocumentService>();
             builder.Services.AddScoped<IDocumentStatusService, DocumentStatusService>();
