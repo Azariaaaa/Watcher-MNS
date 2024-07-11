@@ -2,7 +2,7 @@
 
 namespace WatchMNS.Services.Interfaces
 {
-    public interface INotificaitonTypeService : IService<NotificationType>
+    public interface INotificationTypeService : IService<NotificationType>
     {
     }
 }

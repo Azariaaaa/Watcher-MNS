@@ -8,6 +8,8 @@ using System.Security.Claims;
 using WatchMNS.Database;
 using WatchMNS.DTO;
 using WatchMNS.Models;
+using WatchMNS.Services;
+using WatchMNS.Services.Interfaces;
 using WatchMNS.ViewModel;
 
 namespace WatchMNS.Controllers
@@ -18,19 +20,23 @@ namespace WatchMNS.Controllers
         private DatabaseContext _dbContext = new DatabaseContext();
         private UserManager<Client> _userManager { get; set; }
         private RoleManager<IdentityRole> _roleManager { get; set; }
+        private readonly IClientService _clientService;
 
-        public AdminController(UserManager<Client> userManager, RoleManager<IdentityRole> roleManager)
+        public AdminController(UserManager<Client> userManager, RoleManager<IdentityRole> roleManager, IClientService clientService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _clientService = clientService;
         }
         public async Task<IActionResult> ManageRole(string id)
         {
             AdminEditRoleViewModel viewModel = new AdminEditRoleViewModel();
 
-            Client? client = _dbContext.Client
-                .Where(client => client.Id == id)
-                .FirstOrDefault();
+            //Client? client = _dbContext.Client
+            //    .Where(client => client.Id == id)
+            //    .FirstOrDefault();
+
+            Client? client = await _clientService.GetByIdAsync(id);
 
             viewModel.ClientId = id;
             viewModel.ClientLastname = client.Lastname;
