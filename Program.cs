@@ -32,8 +32,6 @@ namespace WatchMNS
 
             // Repositories
 
-            builder.Services.AddScoped(typeof(IRepository<>), typeof(AbstractRepository<>));
-
             builder.Services.AddScoped<ClientRepository>();
             builder.Services.AddScoped<DocumentRepository>();
             builder.Services.AddScoped<DocumentStatusRepository>();

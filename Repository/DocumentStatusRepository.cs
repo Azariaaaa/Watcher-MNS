@@ -4,7 +4,7 @@ using WatchMNS.Repository.Interfaces;
 
 namespace WatchMNS.Repository
 {
-    public class DocumentStatusRepository : AbstractRepository<DocumentStatus>, IDocumentStatusRepository
+    public class DocumentStatusRepository : AbstractRepository<DocumentStatus>
     {
         public DocumentStatusRepository(DatabaseContext dbContext) : base(dbContext)
         {

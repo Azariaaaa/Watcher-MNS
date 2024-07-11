@@ -4,7 +4,7 @@ using WatchMNS.Repository.Interfaces;
 
 namespace WatchMNS.Repository
 {
-    public class TrainingRepository : AbstractRepository<Training>, ITrainingRepository
+    public class TrainingRepository : AbstractRepository<Training>
     {
         public TrainingRepository(DatabaseContext dbContext) : base(dbContext)
         {

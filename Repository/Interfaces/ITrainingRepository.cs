@@ -1,6 +1,8 @@
-﻿namespace WatchMNS.Repository.Interfaces
+﻿using WatchMNS.Models;
+
+namespace WatchMNS.Repository.Interfaces
 {
-    public interface ITrainingRepository
+    public interface ITrainingRepository : IRepository<Training>
     {
     }
 }

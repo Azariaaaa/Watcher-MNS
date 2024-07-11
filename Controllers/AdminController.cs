@@ -32,10 +32,6 @@ namespace WatchMNS.Controllers
         {
             AdminEditRoleViewModel viewModel = new AdminEditRoleViewModel();
 
-            //Client? client = _dbContext.Client
-            //    .Where(client => client.Id == id)
-            //    .FirstOrDefault();
-
             Client? client = await _clientService.GetByIdAsync(id);
 
             viewModel.ClientId = id;
