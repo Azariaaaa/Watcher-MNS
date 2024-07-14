@@ -119,12 +119,13 @@ namespace WatchMNS.Controllers
 
         public async Task<IActionResult> AdminAbsenceManager(string id)
         {
-            Client? client = _dbContext.Client
-                .FirstOrDefault(x => x.Id == id);
+            Client? client = await _clientService.GetByIdAsync(id);
+
+            return new ContentResult { Content = "Client ID cannot be null or empty.", ContentType = "text/plain", StatusCode = 400 };
 
             if (client == null)
             {
-                return NotFound();
+                return NotFound(404);
             }
 
             var existingLateMisses = _dbContext.LateMiss
