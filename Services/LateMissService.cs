@@ -47,7 +47,7 @@ namespace WatchMNS.Services
         public async Task<List<LateMiss>> GetLateMissesFromUser(Client client, string lateMissType) 
         { 
             return await GetAll()
-                .Where(x => (x.Client == client) && (x.LateMissType == "Absence"))
+                .Where(x => (x.Client == client) && (x.LateMissType == lateMissType))
                 .Include(x => x.lateMissStatus)
                 .ToListAsync();
         }

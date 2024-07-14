@@ -172,26 +172,20 @@ namespace WatchMNS.Controllers
 
         public async Task<IActionResult> AdminDelayManager(string id)
         {
-            Client? client = _dbContext.Client
-               .FirstOrDefault(x => x.Id == id);
+            Client? client = await _clientService.GetByIdAsync(id);
 
             if (client == null)
             {
-                return NotFound();
+                return new ContentResult { Content = "User does not exist.", ContentType = "text/plain", StatusCode = 400 };
             }
 
-            var existingLateMisses = _dbContext.LateMiss
-                .Where(x => (x.Client == client) && (x.LateMissType == "Retard"))
-                .Include(x => x.lateMissStatus)
-                .ToList();
-
-            var newLateMiss = new LateMiss();
+            var existingLateMisses = await _lateMissService.GetLateMissesFromUser(client, "Retard");
 
             var viewModel = new AdminDelayDeclarationViewModel
             {
                 User = client,
                 ExistingLateMisses = existingLateMisses,
-                NewLateMiss = newLateMiss
+                NewLateMiss = new LateMiss()
             };
 
             return View(viewModel);
@@ -200,27 +194,22 @@ namespace WatchMNS.Controllers
         [HttpPost]
         public async Task<IActionResult> AdminDelayManager(AdminDelayDeclarationViewModel viewModel)
         {
-            Client? client = _dbContext.Client
-                .FirstOrDefault(x => x.Id == viewModel.User.Id);
+            Client? client = await _clientService.GetByIdAsync(viewModel.User.Id);
+
+            if (client == null)
+            {
+                return new ContentResult { Content = "User does not exist.", ContentType = "text/plain", StatusCode = 400 };
+            }
 
             viewModel.NewLateMiss.Client = client;
             viewModel.NewLateMiss.DeclarationDate = DateTime.Now.Date;
             viewModel.NewLateMiss.LateMissType = "Retard";
             viewModel.NewLateMiss.StartDate = DateTime.Today.AddHours(8);
-            viewModel.NewLateMiss.lateMissStatus = _dbContext.LateMissStatus
-                .Where(lms => lms.Label == "Traité")
-                .FirstOrDefault();
+            viewModel.NewLateMiss.lateMissStatus = await _lateMissStatusService.GetLateMissStatusByNameAsync("Traité");
 
+            viewModel.ExistingLateMisses = await _lateMissService.GetLateMissesFromUser(client, "Retard");
 
-            var existingLateMisses = _dbContext.LateMiss
-                .Where(x => (x.Client == client) && (x.LateMissType == "Retard"))
-                .Include(x => x.lateMissStatus)
-                .ToList();
-
-            viewModel.ExistingLateMisses = existingLateMisses;
-
-            _dbContext.LateMiss.Add(viewModel.NewLateMiss);
-            _dbContext.SaveChanges();
+            await _lateMissService.AddAsync(viewModel.NewLateMiss);
 
             return RedirectToAction("AdminPanel", "AdminPanel");
         }
