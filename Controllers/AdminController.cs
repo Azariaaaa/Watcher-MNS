@@ -112,20 +112,19 @@ namespace WatchMNS.Controllers
 
                 await _userManager.UpdateAsync(client);
 
+                return RedirectToAction("AdminPanel", "AdminPanel");
             }
 
-            return RedirectToAction("AdminPanel", "AdminPanel");
+            return new ContentResult { Content = "User does not exist.", ContentType = "text/plain", StatusCode = 400 };
         }
 
         public async Task<IActionResult> AdminAbsenceManager(string id)
         {
             Client? client = await _clientService.GetByIdAsync(id);
 
-            return new ContentResult { Content = "Client ID cannot be null or empty.", ContentType = "text/plain", StatusCode = 400 };
-
             if (client == null)
             {
-                return NotFound(404);
+                return new ContentResult { Content = "User does not exist.", ContentType = "text/plain", StatusCode = 400 };
             }
 
             var existingLateMisses = _dbContext.LateMiss
