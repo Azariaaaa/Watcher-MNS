@@ -16,7 +16,7 @@ namespace WatchMNS.Services
         {
             return await _repository.GetByIdAsync(id);
         }
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<List<T>> GetAllAsync()
         {
             return await _repository.GetAllAsync();
         }

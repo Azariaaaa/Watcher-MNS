@@ -22,7 +22,7 @@ namespace WatchMNS.Services
             await _lateMissRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<LateMiss>> GetAllAsync()
+        public async Task<List<LateMiss>> GetAllAsync()
         {
             return await _lateMissRepository.GetAllAsync();
         }

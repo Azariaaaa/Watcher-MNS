@@ -22,7 +22,7 @@ namespace WatchMNS.Services
             await _trainingRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<Training>> GetAllAsync()
+        public async Task<List<Training>> GetAllAsync()
         {
             return await _trainingRepository.GetAllAsync();
         }

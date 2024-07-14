@@ -22,7 +22,7 @@ namespace WatchMNS.Services
             await _notificationTypeRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<NotificationType>> GetAllAsync()
+        public async Task<List<NotificationType>> GetAllAsync()
         {
             return await _notificationTypeRepository.GetAllAsync();
         }

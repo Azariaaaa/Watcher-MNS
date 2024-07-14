@@ -22,7 +22,7 @@ namespace WatchMNS.Services
             await _documentRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<Document>> GetAllAsync()
+        public async Task<List<Document>> GetAllAsync()
         {
             return await _documentRepository.GetAllAsync();
         }

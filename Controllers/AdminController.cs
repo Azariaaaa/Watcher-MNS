@@ -21,12 +21,14 @@ namespace WatchMNS.Controllers
         private UserManager<Client> _userManager { get; set; }
         private RoleManager<IdentityRole> _roleManager { get; set; }
         private readonly IClientService _clientService;
+        private readonly IProfessionnalStatusService _professionnalStatusService;
 
-        public AdminController(UserManager<Client> userManager, RoleManager<IdentityRole> roleManager, IClientService clientService)
+        public AdminController(UserManager<Client> userManager, RoleManager<IdentityRole> roleManager, IClientService clientService, IProfessionnalStatusService professionnalStatusService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _clientService = clientService;
+            _professionnalStatusService = professionnalStatusService;
         }
         public async Task<IActionResult> ManageRole(string id)
         {
@@ -46,9 +48,8 @@ namespace WatchMNS.Controllers
                 viewModel.Role = clientRole;
             }
 
-            List<IdentityRole> existingRoles = _roleManager.Roles.ToList();
 
-            viewModel.ExistingRoles = existingRoles;
+            viewModel.ExistingRoles = _roleManager.Roles.ToList();
 
             return View(viewModel);
         }
@@ -58,7 +59,7 @@ namespace WatchMNS.Controllers
         {
             if(viewModel.ClientId != null)
             {
-                Client client = await _userManager.FindByIdAsync(viewModel.ClientId);
+                Client? client = await _userManager.FindByIdAsync(viewModel.ClientId);
                 IList<string> CurrentUserRole = await _userManager.GetRolesAsync(client);
                 await _userManager.RemoveFromRolesAsync(client, CurrentUserRole);
                 await _userManager.AddToRoleAsync(client, viewModel.NewRoleName);
@@ -70,10 +71,9 @@ namespace WatchMNS.Controllers
         public async Task<IActionResult> AdminEditUser(string id)
         {
 
-            Client client = await _userManager.FindByIdAsync(id);
+            Client? client = await _userManager.FindByIdAsync(id);
 
-            List<ProfessionnalStatus> professionnalStatusesList = new List<ProfessionnalStatus>();
-            professionnalStatusesList =  _dbContext.ProfessionnalStatus.ToList();
+            List<ProfessionnalStatus> professionnalStatusesList = await _professionnalStatusService.GetAllAsync();
 
             AdminEditUserViewModel viewModel = new AdminEditUserViewModel
             {
@@ -93,23 +93,27 @@ namespace WatchMNS.Controllers
                 return View(viewModel);
             }
 
-            Client client = await _userManager.FindByIdAsync(id);
+            Client? client = await _userManager.FindByIdAsync(id);
 
-            client.Firstname = viewModel.UserToEdit.Firstname;
-            client.Lastname = viewModel.UserToEdit.Lastname;
-            client.Email = viewModel.UserToEdit.Email;
-            client.Address = viewModel.UserToEdit.Address;
-            client.PostCode = viewModel.UserToEdit.PostCode;
-            client.City = viewModel.UserToEdit.City;
-            client.Country = viewModel.UserToEdit.Country;
-            client.BirthDate = viewModel.UserToEdit.BirthDate;
-            client.PhoneNumber = viewModel.UserToEdit.PhoneNumber;
-            client.NativeCity = viewModel.UserToEdit.NativeCity;
-            client.NativeCountry = viewModel.UserToEdit.NativeCountry;
-            client.ProfessionnalStatusId = viewModel.UserToEdit.ProfessionnalStatusId;
+            if(client != null)
+            {
+                client.Firstname = viewModel.UserToEdit.Firstname;
+                client.Lastname = viewModel.UserToEdit.Lastname;
+                client.Email = viewModel.UserToEdit.Email;
+                client.Address = viewModel.UserToEdit.Address;
+                client.PostCode = viewModel.UserToEdit.PostCode;
+                client.City = viewModel.UserToEdit.City;
+                client.Country = viewModel.UserToEdit.Country;
+                client.BirthDate = viewModel.UserToEdit.BirthDate;
+                client.PhoneNumber = viewModel.UserToEdit.PhoneNumber;
+                client.NativeCity = viewModel.UserToEdit.NativeCity;
+                client.NativeCountry = viewModel.UserToEdit.NativeCountry;
+                client.ProfessionnalStatusId = viewModel.UserToEdit.ProfessionnalStatusId;
 
-            await _userManager.UpdateAsync(client);
-            
+                await _userManager.UpdateAsync(client);
+
+            }
+
             return RedirectToAction("AdminPanel", "AdminPanel");
         }
 

@@ -22,7 +22,7 @@ namespace WatchMNS.Services
             await _clientRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<Client>> GetAllAsync()
+        public async Task<List<Client>> GetAllAsync()
         {
             return await _clientRepository.GetAllAsync();
         }

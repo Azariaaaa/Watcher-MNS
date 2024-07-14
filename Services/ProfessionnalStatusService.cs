@@ -22,7 +22,7 @@ namespace WatchMNS.Services
             await _professionnalStatusRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<ProfessionnalStatus>> GetAllAsync()
+        public async Task<List<ProfessionnalStatus>> GetAllAsync()
         {
             return await _professionnalStatusRepository.GetAllAsync();
         }
