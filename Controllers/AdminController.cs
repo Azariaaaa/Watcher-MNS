@@ -129,17 +129,14 @@ namespace WatchMNS.Controllers
                 return new ContentResult { Content = "User does not exist.", ContentType = "text/plain", StatusCode = 400 };
             }
 
-            //var existingLateMisses = _dbContext.LateMiss
-            //    .Where(x => (x.Client == client) && (x.LateMissType == "Absence"))
-            //    .Include(x => x.lateMissStatus)
-            //    .ToList();
+            var existingMisses = await _lateMissService.GetLateMissesFromUser(client, "Absence");
 
             var newLateMiss = new LateMiss();
 
             var viewModel = new AdminAbsenceDeclarationViewModel
             {
                 User = client,
-                ExistingLateMisses = existingLateMisses,
+                ExistingLateMisses = existingMisses,
                 NewLateMiss = newLateMiss
             };
 
@@ -150,8 +147,7 @@ namespace WatchMNS.Controllers
         [HttpPost]
         public async Task<IActionResult> AdminAbsenceManager(AdminAbsenceDeclarationViewModel viewModel)
         {
-            Client? client = _dbContext.Client
-                .FirstOrDefault(x => x.Id == viewModel.User.Id);
+            Client? client = await _clientService.GetByIdAsync(viewModel.User.Id); //STOPE ICI @@@@@@@@@@@@ NON TESTE
 
             viewModel.NewLateMiss.Client = client;
             viewModel.NewLateMiss.DeclarationDate = DateTime.Now.Date;
