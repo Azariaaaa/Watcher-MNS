@@ -161,20 +161,10 @@ namespace WatchMNS.Controllers
             viewModel.NewLateMiss.LateMissType = "Absence";
             viewModel.NewLateMiss.StartDate = DateTime.Today.AddHours(8);
             viewModel.NewLateMiss.lateMissStatus = await _lateMissStatusService.GetLateMissStatusByNameAsync("Traité");
-            //viewModel.NewLateMiss.lateMissStatus = _dbContext.LateMissStatus
-            //    .Where(lms => lms.Label == "Traité")
-            //    .FirstOrDefault();
 
+            viewModel.ExistingLateMisses = await _lateMissService.GetLateMissesFromUser(client, "Absence");
 
-            var existingLateMisses = _dbContext.LateMiss
-                .Where(x => (x.Client == client) && (x.LateMissType == "Absence"))
-                .Include(x => x.lateMissStatus)
-                .ToList();
-
-            viewModel.ExistingLateMisses = existingLateMisses;
-
-            _dbContext.LateMiss.Add(viewModel.NewLateMiss);
-            _dbContext.SaveChanges();
+            await _lateMissService.AddAsync(viewModel.NewLateMiss);
 
             return RedirectToAction("AdminPanel", "AdminPanel");
         }
