@@ -23,14 +23,16 @@ namespace WatchMNS.Controllers
         private readonly IClientService _clientService;
         private readonly ILateMissService _lateMissService;
         private readonly IProfessionnalStatusService _professionnalStatusService;
+        private readonly ILateMissStatusService _lateMissStatusService;
 
-        public AdminController(UserManager<Client> userManager, RoleManager<IdentityRole> roleManager, IClientService clientService, IProfessionnalStatusService professionnalStatusService, ILateMissService lateMissService)
+        public AdminController(UserManager<Client> userManager, RoleManager<IdentityRole> roleManager, IClientService clientService, IProfessionnalStatusService professionnalStatusService, ILateMissService lateMissService, ILateMissStatusService lateMissStatusService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _clientService = clientService;
             _professionnalStatusService = professionnalStatusService;
             _lateMissService = lateMissService;
+            _lateMissStatusService = lateMissStatusService;
         }
         public async Task<IActionResult> ManageRole(string id)
         {
@@ -147,15 +149,21 @@ namespace WatchMNS.Controllers
         [HttpPost]
         public async Task<IActionResult> AdminAbsenceManager(AdminAbsenceDeclarationViewModel viewModel)
         {
-            Client? client = await _clientService.GetByIdAsync(viewModel.User.Id); //STOPE ICI @@@@@@@@@@@@ NON TESTE
+            Client? client = await _clientService.GetByIdAsync(viewModel.User.Id); 
+
+            if(client == null)
+            {
+                return new ContentResult { Content = "User does not exist.", ContentType = "text/plain", StatusCode = 400 };
+            }
 
             viewModel.NewLateMiss.Client = client;
             viewModel.NewLateMiss.DeclarationDate = DateTime.Now.Date;
             viewModel.NewLateMiss.LateMissType = "Absence";
             viewModel.NewLateMiss.StartDate = DateTime.Today.AddHours(8);
-            viewModel.NewLateMiss.lateMissStatus = _dbContext.LateMissStatus
-                .Where(lms => lms.Label == "Traité")
-                .FirstOrDefault();
+            viewModel.NewLateMiss.lateMissStatus = await _lateMissStatusService.GetLateMissStatusByNameAsync("Traité");
+            //viewModel.NewLateMiss.lateMissStatus = _dbContext.LateMissStatus
+            //    .Where(lms => lms.Label == "Traité")
+            //    .FirstOrDefault();
 
 
             var existingLateMisses = _dbContext.LateMiss

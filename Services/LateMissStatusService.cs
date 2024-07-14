@@ -39,6 +39,13 @@ namespace WatchMNS.Services
             return await _lateMissStatusRepository.GetByIdAsync(id);
         }
 
+        public async Task<LateMissStatus?> GetLateMissStatusByNameAsync(string name)
+        {
+            return await _lateMissStatusRepository.GetAll()
+                .Where(lms => lms.Label == name)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task UpdateAsync(LateMissStatus entity)
         {
             await _lateMissStatusRepository.UpdateAsync(entity);
