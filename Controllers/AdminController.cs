@@ -216,11 +216,10 @@ namespace WatchMNS.Controllers
 
         public async Task<IActionResult> CreateProfessionnalStatus()
         {
-            var existingProfessionnalStatuses = _dbContext.ProfessionnalStatus.ToList();
-            CreateProfessionnalStatusViewModel viewModel = new CreateProfessionnalStatusViewModel();
-
-            viewModel.existingProfessionnalStatuses = existingProfessionnalStatuses;
-            
+            CreateProfessionnalStatusViewModel viewModel = new CreateProfessionnalStatusViewModel
+            {
+                ExistingProfessionnalStatuses = await _professionnalStatusService.GetAllAsync()
+            };
 
             return View(viewModel);
         }
@@ -230,28 +229,27 @@ namespace WatchMNS.Controllers
         {
             if (!ModelState.IsValid)
             {
-                CreateProfessionnalStatusViewModel viewModel = new CreateProfessionnalStatusViewModel();
-                var existingProfessionnalStatuses = _dbContext.ProfessionnalStatus.ToList();
-                viewModel.existingProfessionnalStatuses = existingProfessionnalStatuses;
-                viewModel.ProfessionnalStatus = dto.ProfessionnalStatus;
+                CreateProfessionnalStatusViewModel viewModel = new CreateProfessionnalStatusViewModel
+                {
+                    ExistingProfessionnalStatuses = await _professionnalStatusService.GetAllAsync(),
+                    ProfessionnalStatus = dto.ProfessionnalStatus
+                };
 
                 return View(viewModel);
             }
 
-            _dbContext.ProfessionnalStatus.Add(dto.ProfessionnalStatus);
-            _dbContext.SaveChanges();
+            await _professionnalStatusService.AddAsync(dto.ProfessionnalStatus);
 
             return RedirectToAction("CreateProfessionnalStatus", "Admin");
 
         }
         public async Task<IActionResult> DeleteProfessionnalStatus(int id)
         {
-            ProfessionnalStatus? professionnalStatusToDelete = _dbContext.ProfessionnalStatus.Where(ps => ps.Id == id).FirstOrDefault();
+            ProfessionnalStatus? professionnalStatusToDelete = await _professionnalStatusService.GetByIdAsync(id);
 
             if (professionnalStatusToDelete != null)
             {
-                _dbContext.Remove(professionnalStatusToDelete);
-                _dbContext.SaveChanges();
+                await _professionnalStatusService.DeleteAsync(professionnalStatusToDelete.Id);   
 
                 return RedirectToAction("CreateProfessionnalStatus", "Admin");
             }
