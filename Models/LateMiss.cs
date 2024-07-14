@@ -6,7 +6,7 @@ namespace WatchMNS.Models
     {
         [Key]
         public int Id { get; set; }
-        public DateTime? DeclarationDate { get; set; }
+        public DateTime DeclarationDate { get; set; }
         public string LateMissType { get; set; }
         public string Reason { get; set; }
         public DateTime StartDate { get; set; }
