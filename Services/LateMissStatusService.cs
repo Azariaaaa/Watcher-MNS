@@ -1,5 +1,7 @@
-﻿using WatchMNS.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using WatchMNS.Models;
 using WatchMNS.Repository;
+using WatchMNS.Repository.Interfaces;
 using WatchMNS.Services.Interfaces;
 
 namespace WatchMNS.Services
@@ -22,9 +24,14 @@ namespace WatchMNS.Services
             await _lateMissStatusRepository.DeleteAsync(id);
         }
 
+        public IQueryable<LateMissStatus> GetAll()
+        {
+            return _lateMissStatusRepository.GetAll();
+        }
+
         public async Task<List<LateMissStatus>> GetAllAsync()
         {
-            return await _lateMissStatusRepository.GetAllAsync();
+            return await GetAll().ToListAsync();
         }
 
         public async Task<LateMissStatus> GetByIdAsync(object id)

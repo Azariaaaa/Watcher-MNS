@@ -21,14 +21,16 @@ namespace WatchMNS.Controllers
         private UserManager<Client> _userManager { get; set; }
         private RoleManager<IdentityRole> _roleManager { get; set; }
         private readonly IClientService _clientService;
+        private readonly ILateMissService _lateMissService;
         private readonly IProfessionnalStatusService _professionnalStatusService;
 
-        public AdminController(UserManager<Client> userManager, RoleManager<IdentityRole> roleManager, IClientService clientService, IProfessionnalStatusService professionnalStatusService)
+        public AdminController(UserManager<Client> userManager, RoleManager<IdentityRole> roleManager, IClientService clientService, IProfessionnalStatusService professionnalStatusService, ILateMissService lateMissService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _clientService = clientService;
             _professionnalStatusService = professionnalStatusService;
+            _lateMissService = lateMissService;
         }
         public async Task<IActionResult> ManageRole(string id)
         {
@@ -127,10 +129,10 @@ namespace WatchMNS.Controllers
                 return new ContentResult { Content = "User does not exist.", ContentType = "text/plain", StatusCode = 400 };
             }
 
-            var existingLateMisses = _dbContext.LateMiss
-                .Where(x => (x.Client == client) && (x.LateMissType == "Absence"))
-                .Include(x => x.lateMissStatus)
-                .ToList();
+            //var existingLateMisses = _dbContext.LateMiss
+            //    .Where(x => (x.Client == client) && (x.LateMissType == "Absence"))
+            //    .Include(x => x.lateMissStatus)
+            //    .ToList();
 
             var newLateMiss = new LateMiss();
 

@@ -1,4 +1,5 @@
-﻿using WatchMNS.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using WatchMNS.Models;
 using WatchMNS.Repository;
 using WatchMNS.Services.Interfaces;
 
@@ -22,9 +23,14 @@ namespace WatchMNS.Services
             await _clientRepository.DeleteAsync(id);
         }
 
+        public IQueryable<Client> GetAll()
+        {
+            return _clientRepository.GetAll();
+        }
+
         public async Task<List<Client>> GetAllAsync()
         {
-            return await _clientRepository.GetAllAsync();
+            return await GetAll().ToListAsync();
         }
 
         public async Task<Client> GetByIdAsync(object id)

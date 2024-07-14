@@ -1,5 +1,7 @@
-﻿using WatchMNS.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using WatchMNS.Models;
 using WatchMNS.Repository;
+using WatchMNS.Repository.Interfaces;
 using WatchMNS.Services.Interfaces;
 
 namespace WatchMNS.Services
@@ -22,9 +24,14 @@ namespace WatchMNS.Services
             await _professionnalStatusRepository.DeleteAsync(id);
         }
 
+        public IQueryable<ProfessionnalStatus> GetAll()
+        {
+            return _professionnalStatusRepository.GetAll();
+        }
+
         public async Task<List<ProfessionnalStatus>> GetAllAsync()
         {
-            return await _professionnalStatusRepository.GetAllAsync();
+            return await GetAll().ToListAsync();
         }
 
         public async Task<ProfessionnalStatus> GetByIdAsync(object id)
