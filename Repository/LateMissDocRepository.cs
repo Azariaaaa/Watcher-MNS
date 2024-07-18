@@ -1,13 +1,51 @@
-﻿using WatchMNS.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using WatchMNS.Database;
 using WatchMNS.Models;
 using WatchMNS.Repository.Interfaces;
 
 namespace WatchMNS.Repository
 {
-    public class LateMissDocRepository : AbstractRepository<LateMissDoc>
+    public class LateMissDocRepository : ILateMissDocRepository
     {
-        public LateMissDocRepository (DatabaseContext dbContext) : base(dbContext)
+        private readonly DatabaseContext _dbContext;
+        private readonly DbSet<LateMissDoc> _dbSet;
+
+        public LateMissDocRepository(DatabaseContext dbContext)
         {
+            _dbContext = dbContext;
+            _dbSet = _dbContext.Set<LateMissDoc>();
+        }
+
+        public async Task<LateMissDoc> GetByIdAsync(object id)
+        {
+            return await _dbSet.FindAsync(id);
+        }
+
+        public IQueryable<LateMissDoc> GetAll()
+        {
+            return _dbSet;
+        }
+
+        public async Task AddAsync(LateMissDoc entity)
+        {
+            await _dbSet.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(object id)
+        {
+            var entity = await _dbSet.FindAsync(id);
+            if (entity != null)
+            {
+                _dbSet.Remove(entity);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateAsync(LateMissDoc entity)
+        {
+            _dbSet.Update(entity);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

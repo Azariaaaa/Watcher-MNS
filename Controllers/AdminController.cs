@@ -258,7 +258,7 @@ namespace WatchMNS.Controllers
 
         }
 
-        public async Task<IActionResult> AdminDocumentManager(string id)
+        public async Task<IActionResult> AdminDocumentManager(string id) //CONTINUER ICI !! 
         {
             Client? user = _dbContext.Client
                 .FirstOrDefault(c => c.Id == id);
