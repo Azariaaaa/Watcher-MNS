@@ -5,12 +5,12 @@ using WatchMNS.Repository.Interfaces;
 
 namespace WatchMNS.Repository
 {
-    public class ProfessionalStatusRepository : IProfessionnalStatusRepository
+    public class ProfessionnalStatusRepository : IProfessionnalStatusRepository
     {
         private readonly DatabaseContext _dbContext;
         private readonly DbSet<ProfessionnalStatus> _dbSet;
 
-        public ProfessionalStatusRepository(DatabaseContext dbContext)
+        public ProfessionnalStatusRepository(DatabaseContext dbContext)
         {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<ProfessionnalStatus>();
