@@ -9,10 +9,7 @@ namespace WatchMNS.Database
 {
     public class DatabaseContext : IdentityDbContext<Client>
     {
-        public DatabaseContext()
-        {
-            
-        }
+        public DatabaseContext() { }
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
         public DbSet<Client> Client { get; set; }

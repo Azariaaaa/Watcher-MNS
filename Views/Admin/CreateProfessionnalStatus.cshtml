@@ -7,22 +7,34 @@
 
     <h2>Status professionnel existants</h2>
 
-    <table class="table table-dark table-hover">
+    @if (Model.ExistingProfessionnalStatuses != null)
+    {
+        <table class="table table-dark table-hover">
 
-        <thead class="fw-bolder">
-            <td colspan="1">Id</td>
-            <td colspan="1">Nom status</td>
-            <td colspan="1">Action</td>
-        </thead>
-        @foreach (ProfessionnalStatus professionnalStatus in Model.ExistingProfessionnalStatuses)
-        {
-            <tr>
-                <td colspan="1">@professionnalStatus.Id</td>
-                <td colspan="1">@professionnalStatus.Label </td>
-                <td colspan="1">@Html.ActionLink("Supprimer", "DeleteProfessionnalStatus", "Admin", new { id = professionnalStatus.Id }, new { @class = "btn btn-light btn-sm" }) </td>
-            </tr>
-        }
-    </table>
+            <thead>
+                <tr class="fw-bolder">
+                    <th>Id</th>
+                    <th>Nom status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            @foreach (ProfessionnalStatus professionnalStatus in Model.ExistingProfessionnalStatuses)
+            {
+                <tr>
+                    <td colspan="1">@professionnalStatus.Id</td>
+                    <td colspan="1">@professionnalStatus.Label </td>
+                    <td colspan="1">@Html.ActionLink("Supprimer", "DeleteProfessionnalStatus", "Admin", new { id = professionnalStatus.Id }, new { @class = "btn btn-light btn-sm" }) </td>
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        <p>Aucun statut professionnel n'a été trouvé. Veuillez en créer un pour faire apparaitre la liste des statuts professionnels.</p>
+    }
+
 </div>
 
 

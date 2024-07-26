@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WatchMNS.Database;
 
@@ -11,9 +12,11 @@ using WatchMNS.Database;
 namespace WatchMNS.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240722210355_DocumentTableUpdate")]
+    partial class DocumentTableUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,16 +305,14 @@ namespace WatchMNS.Migrations
 
                     b.Property<string>("Label")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("VARCHAR(100)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("LastStatusDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Path")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("VARCHAR(500)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("UploadDate")
                         .HasColumnType("datetime(6)");
