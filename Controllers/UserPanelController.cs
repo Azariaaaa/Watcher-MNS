@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using WatchMNS.Database;
 using WatchMNS.Models;
+using WatchMNS.Services.Interfaces;
 using WatchMNS.ViewModel;
 
 namespace WatchMNS.Controllers
@@ -14,10 +15,16 @@ namespace WatchMNS.Controllers
     {
         private DatabaseContext _dbContext = new DatabaseContext();
         private UserManager<Client> _userManager { get; set; }
+        private readonly IClientService _clientService;
+        private readonly ILateMissService _lateMissService;
+        private readonly ILateMissStatusService _lateMissStatusService;
 
-        public UserPanelController(UserManager<Client> userManager)
+        public UserPanelController(UserManager<Client> userManager,IClientService clientService, ILateMissService lateMissService, ILateMissStatusService lateMissStatusService)
         {
             _userManager = userManager;
+            _lateMissService = lateMissService;
+            _lateMissStatusService = lateMissStatusService;
+            _clientService = clientService;
         }
         public IActionResult Panel()
         {
@@ -31,43 +38,41 @@ namespace WatchMNS.Controllers
             return View(client);
         }
 
-        public IActionResult DelayManager()
+        public async Task<IActionResult> DelayManager()
         {
             string? clientId = User
                 .FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Client? client = _dbContext.Client
-                .FirstOrDefault(x => x.Id == clientId);
-
-            if (client == null)
+            if (clientId == null)
             {
-                return NotFound();
+                return new ContentResult { Content = "User does not exist.", ContentType = "text/plain", StatusCode = 400 };
             }
 
-            var existingLateMisses = _dbContext.LateMiss
-                .Where(x => (x.Client == client) && (x.LateMissType == "Retard"))
-                .Include(x => x.lateMissStatus)
-                .ToList();
+            Client? client = await _clientService.GetByIdAsync(clientId);
 
-            var newLateMiss = new LateMiss();
+            List<LateMiss> existingLateMisses = await _lateMissService.GetLateMissesFromUser(client, "Retard");
 
             var viewModel = new DelayDeclarationViewModel
             {
                 ExistingLateMisses = existingLateMisses,
-                NewLateMiss = newLateMiss
+                NewLateMiss = new()
             };
 
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult DelayManager(DelayDeclarationViewModel viewModel)
+        public async Task<IActionResult> DelayManager(DelayDeclarationViewModel viewModel)
         {
             string? clientId = User
                 .FindFirstValue(ClaimTypes.NameIdentifier);
 
-            Client? client = _dbContext.Client
-                .FirstOrDefault(x => x.Id == clientId);
+            if (clientId == null)
+            {
+                return new ContentResult { Content = "User does not exist.", ContentType = "text/plain", StatusCode = 400 };
+            }
+
+            Client? client = await _clientService.GetByIdAsync(clientId);
 
             viewModel.NewLateMiss.Client = client;
             viewModel.NewLateMiss.DeclarationDate = DateTime.Now.Date;
