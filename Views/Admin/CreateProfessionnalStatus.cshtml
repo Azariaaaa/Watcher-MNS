@@ -5,7 +5,7 @@
 
 <div class="custom-border text-light p-4">
 
-    <h2>Status professionnel existants</h2>
+    <h2>Statuts professionnels existants</h2>
 
     @if (Model.ExistingProfessionnalStatuses != null)
     {
@@ -24,7 +24,10 @@
                 <tr>
                     <td colspan="1">@professionnalStatus.Id</td>
                     <td colspan="1">@professionnalStatus.Label </td>
-                    <td colspan="1">@Html.ActionLink("Supprimer", "DeleteProfessionnalStatus", "Admin", new { id = professionnalStatus.Id }, new { @class = "btn btn-light btn-sm" }) </td>
+                    <td colspan="1">@Html.ActionLink("Supprimer", "DeleteProfessionnalStatus", "Admin", 
+                                                    new { id = professionnalStatus.Id }, 
+                                                    new { @class = "btn btn-light btn-sm" }) 
+                                                    </td>
                 </tr>
             }
 
@@ -32,7 +35,7 @@
     }
     else
     {
-        <p>Aucun statut professionnel n'a été trouvé. Veuillez en créer un pour faire apparaitre la liste des statuts professionnels.</p>
+        <p>Aucun statut professionnel n'a été trouvé. Veuillez en créer un nouveau statut pour faire afficher la liste.</p>
     }
 
 </div>

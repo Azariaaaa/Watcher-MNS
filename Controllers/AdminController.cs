@@ -214,6 +214,16 @@ namespace WatchMNS.Controllers
             return RedirectToAction("AdminPanel", "AdminPanel");
         }
 
+        public async Task<IActionResult> ValidateDelay(int lateMissId, string userId)
+        {
+            LateMiss lateMiss = await _lateMissService.GetByIdAsync(lateMissId);
+            lateMiss.lateMissStatus = await _lateMissStatusService.GetLateMissStatusByNameAsync("Traité");
+
+            await _lateMissService.UpdateAsync(lateMiss);
+
+            return RedirectToAction("AdminDelayManager", "Admin", new { id = userId});
+        }
+
         public async Task<IActionResult> CreateProfessionnalStatus()
         {
             CreateProfessionnalStatusViewModel viewModel = new CreateProfessionnalStatusViewModel
@@ -286,9 +296,5 @@ namespace WatchMNS.Controllers
 
             return View(viewModel);
         }
-
-        
-
-
     }
 }

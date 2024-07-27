@@ -10,7 +10,7 @@
         {
             <div class="custom-border mt-3 p-3">
                 <h3 class="text-decoration-underline">Retard</h3>
-                <p><span class="fw-bold">Date de déclaration :</span> @delay.DeclarationDate</p>
+                <p><span class="fw-bold">Date de déclaration :</span> @delay.DeclarationDate.ToShortDateString()</p>
                 <p><span class="fw-bold">Statut de validation :</span> @delay.lateMissStatus.Label</p>
                 <p><span class="fw-bold">Motif :</span> @delay.Reason</p>
             </div>

@@ -16,6 +16,12 @@ namespace WatchMNS.Repository
             _dbSet = _dbContext.Set<LateMiss>();
         }
 
+        public async Task AddAsync(LateMiss entity)
+        {
+            await _dbSet.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<LateMiss> GetByIdAsync(object id)
         {
             return await _dbSet.FindAsync(id);
@@ -24,12 +30,6 @@ namespace WatchMNS.Repository
         public IQueryable<LateMiss> GetAll()
         {
             return _dbSet;
-        }
-
-        public async Task AddAsync(LateMiss entity)
-        {
-            await _dbSet.AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(object id)
